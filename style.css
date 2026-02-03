@@ -776,11 +776,14 @@ a { color: inherit; text-decoration: none; }
 /* STATUT ŒUVRE */
 .art-thumb .art-status { display: none !important; }
 
-.art-body { padding: 0.9rem 1rem 1.1rem; font-size: 0.82rem; }
+.art-body { 
+  padding: 1.2rem 1.3rem 1.3rem; 
+  font-size: 0.82rem; 
+}
 
 /* ✅ Badge de statut en haut de la carte */
 .art-status-wrapper {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -809,7 +812,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
   color: var(--text-main);
 }
 
@@ -847,20 +850,29 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-.art-meta-line { font-size: 0.78rem; color: var(--text-soft); }
-.art-cta { margin-top: 0.55rem; font-size: 0.78rem; color: var(--accent-hover); }
+.art-meta-line { 
+  font-size: 0.78rem; 
+  color: var(--text-soft);
+  margin-bottom: 0.15rem;
+}
+
+.art-cta { 
+  margin-top: 0.65rem; 
+  font-size: 0.78rem; 
+  color: var(--accent-hover); 
+}
 
 .art-desc {
-  margin-top: 0.6rem;
+  margin-top: 0.8rem;
   font-size: 0.78rem;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* Bouton "Voir plus" */
 .art-more{
   display: inline-flex;
-  margin-top: 10px;
+  margin-top: 0.65rem;
   font-size: .78rem;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -1072,13 +1084,33 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 640px) {
   .card-grid-3 { grid-template-columns: minmax(0, 1fr); }
+  
+  .card {
+    padding: 0.95rem 1.05rem 1.1rem;
+  }
+  
+  .card-thumb {
+    margin-bottom: 0.7rem;
+  }
+  
+  .card-kicker {
+    margin-bottom: 0.35rem;
+  }
+  
+  .card-title {
+    margin: 0 0 0.4rem 0;
+  }
+  
+  .card-text {
+    margin-bottom: 0.6rem;
+  }
 }
 
 .card {
   border-radius: var(--radius-lg);
   background: var(--bg-elevated);
   border: 1px solid var(--border-soft);
-  padding: 1rem;
+  padding: 1.2rem 1.3rem 1.3rem;
   box-shadow: var(--shadow-soft);
   font-size: 0.82rem;
   transition: transform 220ms ease, box-shadow 220ms ease;
@@ -1091,7 +1123,7 @@ a { color: inherit; text-decoration: none; }
 .card-thumb {
   border-radius: var(--radius-md);
   overflow: hidden;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.9rem;
   background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
   height: 150px;
   border: 1px solid color-mix(in srgb, var(--border-soft) 92%, transparent);
@@ -1109,14 +1141,14 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-soft);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.45rem;
 }
 
 .card-title { 
   font-size: 0.85rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin: 0 0 0.4rem 0;
+  margin: 0 0 0.5rem 0;
   color: var(--text-main);
   line-height: 1.3;
 }
@@ -1124,8 +1156,8 @@ a { color: inherit; text-decoration: none; }
 .card-text { 
   color: var(--text-muted); 
   font-size: 0.82rem;
-  line-height: 1.5;
-  margin-bottom: 0.6rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
 }
 
 .card-link { 
