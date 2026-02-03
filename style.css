@@ -1323,6 +1323,102 @@ img.img-smooth.is-ready {
 }
 
 /* =========================================================
+   LIGHTBOX - SCROLL ACTIVÉ POUR LES GRANDES IMAGES
+   ========================================================= */
+
+/* Bloquer le scroll de la page quand la lightbox est ouverte */
+body.lightbox-open {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 10000;
+  /* ✅ Permettre le scroll dans la lightbox */
+  overflow: auto;
+  padding: 70px 20px 20px;
+}
+
+.lightbox-overlay.is-visible { 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+.lightbox-inner { 
+  /* ✅ Permettre à l'image de dépasser si nécessaire */
+  max-width: 90vw;
+  max-height: none;
+  position: relative;
+  margin: auto;
+}
+
+.lightbox-inner img {
+  /* ✅ Image peut prendre sa taille naturelle */
+  max-width: 90vw;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--border-soft) 85%, transparent);
+  box-shadow: 0 28px 90px rgba(31,42,56,0.28);
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border-soft));
+  background: var(--surface-strong);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  box-shadow: var(--shadow-float);
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  z-index: 10001;
+}
+
+.lightbox-close:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(31,42,56,0.22);
+  background: var(--surface-ink);
+}
+
+/* Mobile : ajustements */
+@media (max-width: 768px) {
+  .lightbox-overlay {
+    padding: 70px 10px 10px;
+  }
+  
+  .lightbox-close {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .lightbox-inner img {
+    max-width: 95vw;
+  }
+}
+
+/* =========================================================
    GLOBAL LOADER (logo + barre) — SEUL LOADER DU SITE
    Durée visible : 1.3 secondes minimum
    ========================================================= */
