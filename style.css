@@ -1109,12 +1109,35 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-soft);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.35rem;
 }
 
-.card-title { font-size: 0.9rem; margin-bottom: 0.3rem; color: var(--text-main); }
-.card-text { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.6rem; }
-.card-link { font-size: 0.78rem; color: var(--accent-hover); }
+.card-title { 
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 0.4rem 0;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.card-text { 
+  color: var(--text-muted); 
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-bottom: 0.6rem;
+}
+
+.card-link { 
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
 
 /* FILTRES / ONGLETS */
 .filter-row, .tabs, .chip-row { display:flex; flex-wrap:wrap; gap:10px; }
