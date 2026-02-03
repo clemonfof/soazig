@@ -1019,10 +1019,9 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
       body.className = "art-body";
 
       body.innerHTML = `
-        <div class="art-title-row">
-          <div class="art-title">${escapeHtml(o.title || "")}</div>
-          ${st.text ? `<span class="${st.cls}">${escapeHtml(st.text)}</span>` : ""}
-        </div>
+        ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
+        
+        <div class="art-title">${escapeHtml(o.title || "")}</div>
 
         <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
