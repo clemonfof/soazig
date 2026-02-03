@@ -377,4 +377,12 @@
         const active = buttons.find(b => b.classList.contains("is-active"));
         applyFilter(active ? active.dataset.filter : "all");
       });
-      obs.observe(
+      obs.observe(grid, { childList: true, subtree: true });
+
+      applyFilter("all");
+    });
+  </script>
+
+  <script src="data-loader.js" defer></script>
+</body>
+</html>
