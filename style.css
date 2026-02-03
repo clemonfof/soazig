@@ -736,6 +736,8 @@ a { color: inherit; text-decoration: none; }
 
 /* art-card cohérente */
 .art-card{
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius-lg);
   background: var(--bg-elevated);
   border: 1px solid var(--border-soft);
@@ -760,6 +762,8 @@ a { color: inherit; text-decoration: none; }
   border-radius: 0;
   background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
   border-bottom: 1px solid color-mix(in srgb, var(--separator) 92%, transparent);
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .art-thumb img {
@@ -778,7 +782,10 @@ a { color: inherit; text-decoration: none; }
 
 .art-body { 
   padding: 1.2rem 1.3rem 1.3rem; 
-  font-size: 0.82rem; 
+  font-size: 0.82rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ✅ Badge de statut en haut de la carte */
@@ -792,19 +799,19 @@ a { color: inherit; text-decoration: none; }
 /* ✅ FIX MOBILE : plus d'espace pour éviter le crop */
 @media (max-width: 640px) {
   .art-body {
-    padding: 0.85rem 0.9rem 1rem;
+    padding: 1rem 1.05rem 1.1rem;
   }
   
   .art-status-wrapper {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
   }
   
   .gallery-grid {
-    gap: 1.1rem;
+    gap: 1.2rem;
   }
   
   .card-grid-3 {
-    gap: 1rem;
+    gap: 1.2rem;
   }
 }
 
@@ -1311,6 +1318,66 @@ a { color: inherit; text-decoration: none; }
   .header-inner { padding-inline: 1.2rem; }
   .page-hero { padding: 1.1rem 1.2rem; }
   .event-item { grid-template-columns: minmax(0, 1fr); }
+  
+  /* ✅ Titres de sections sur mobile */
+  .section-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.8rem;
+  }
+  
+  .section-kicker {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* ✅ Hero home sur mobile */
+  .hero-home {
+    margin-top: 1.5rem;
+    gap: 1.8rem;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+    letter-spacing: 0.18em;
+  }
+  
+  .hero-subline {
+    font-size: 0.88rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .hero-actions {
+    gap: 0.7rem;
+  }
+  
+  .hero-art-panel {
+    padding: 1rem;
+    gap: 0.9rem;
+  }
+  
+  .hero-art-image img {
+    height: 220px;
+  }
+  
+  /* ✅ Section œuvres phares sur mobile */
+  .gallery-grid .art-card {
+    margin-bottom: 1.2rem;
+  }
+  
+  /* ✅ Cartes actualités accueil sur mobile */
+  .card-grid-3 {
+    gap: 1.2rem;
+  }
+  
+  /* ✅ Sections avec plus d'espace */
+  section {
+    margin-bottom: 2.5rem;
+  }
+  
+  section:first-of-type {
+    margin-top: 0;
+  }
 }
 
 /* =========================================================
