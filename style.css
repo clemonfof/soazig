@@ -776,19 +776,24 @@ a { color: inherit; text-decoration: none; }
 /* STATUT ŒUVRE */
 .art-thumb .art-status { display: none !important; }
 
-.art-title-row {
+.art-body { padding: 0.9rem 1rem 1.1rem; font-size: 0.82rem; }
+
+/* ✅ Badge de statut en haut de la carte */
+.art-status-wrapper {
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  justify-content: flex-start;
 }
-
-.art-body { padding: 0.9rem 1rem 1.1rem; font-size: 0.82rem; }
 
 /* ✅ FIX MOBILE : plus d'espace pour éviter le crop */
 @media (max-width: 640px) {
   .art-body {
     padding: 0.85rem 0.9rem 1rem;
+  }
+  
+  .art-status-wrapper {
+    margin-bottom: 0.4rem;
   }
   
   .gallery-grid {
@@ -837,14 +842,8 @@ a { color: inherit; text-decoration: none; }
     letter-spacing: 0.10em;
   }
   
-  .art-title-row {
-    gap: 0.5rem;
-  }
-  
   .art-title {
     font-size: 0.78rem;
-    flex: 1;
-    min-width: 0;
   }
 }
 
