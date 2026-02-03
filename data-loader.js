@@ -1149,27 +1149,8 @@ function renderPresse(entries) {
 }
 
 // ----------------------------------------------------
-// SMOOTH IMAGES + PAGE LOADER (anti-flicker)
+// SMOOTH IMAGES (anti-flicker, sans page-loader)
 // ----------------------------------------------------
-
-function ensurePageLoader() {
-  if (document.getElementById("page-loader")) return;
-  const el = document.createElement("div");
-  el.id = "page-loader";
-  el.setAttribute("aria-hidden", "true");
-  el.innerHTML = `<div class="loader-spinner"></div>`;
-  document.body.appendChild(el);
-}
-
-function showPageLoader() {
-  document.documentElement.classList.add("is-loading");
-}
-
-function hidePageLoader() {
-  window.setTimeout(() => {
-    document.documentElement.classList.remove("is-loading");
-  }, 120);
-}
 
 function makeImageSmooth(img) {
   if (!img || img.dataset.noSmooth === "1") return;
@@ -1211,23 +1192,7 @@ async function waitForImagesToBeReady(timeoutMs = 2500) {
   await Promise.race([Promise.allSettled(promises), timeout]);
 }
 
-function initSmoothImagesAndLoader() {
-  ensurePageLoader();
-
-  document.addEventListener("click", (e) => {
-    const a = e.target && e.target.closest ? e.target.closest("a") : null;
-    if (!a) return;
-
-    const href = a.getAttribute("href") || "";
-    const target = a.getAttribute("target") || "";
-
-    if (target === "_blank") return;
-    if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
-    if (/^https?:\/\//i.test(href)) return;
-
-    showPageLoader();
-  }, { capture: true });
-
+function initSmoothImages() {
   const mo = new MutationObserver((mutations) => {
     for (const m of mutations) {
       for (const node of m.addedNodes) {
@@ -1239,11 +1204,6 @@ function initSmoothImagesAndLoader() {
     }
   });
   mo.observe(document.documentElement, { childList: true, subtree: true });
-
-  window.addEventListener("load", async () => {
-    await waitForImagesToBeReady();
-    hidePageLoader();
-  }, { once: true });
 }
 
 // ----------------------------------------------------
@@ -1324,7 +1284,7 @@ function hideGlobalLoader() {
   loader.classList.add("is-hidden");
 }
 
-// Quand tu navigues vers une page interne, on remet les loaders
+// Quand tu navigues vers une page interne, on remet le global loader
 document.addEventListener("click", (e) => {
   const a = e.target.closest && e.target.closest("a");
   if (!a) return;
@@ -1337,7 +1297,6 @@ document.addEventListener("click", (e) => {
   if (/^https?:\/\//i.test(href)) return;
 
   showGlobalLoader();
-  showPageLoader();
 }, true);
 
 // ----------------------------------------------------
@@ -1349,7 +1308,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initTheme();
 
   // 1) UI loaders / lightbox / modals
-  initSmoothImagesAndLoader();
+  initSmoothImages();
   initLightbox();
   initArtMoreHandler();
 
@@ -1362,5 +1321,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 4) Laisse une chance aux images injectées de se charger
   await waitForImagesToBeReady(2500);
 
-  hideGlobalLoader();
+  // 5) ✅ Masquer le global loader après 1.3 secondes minimum
+  window.setTimeout(() => {
+    hideGlobalLoader();
+  }, 1300);
 });
