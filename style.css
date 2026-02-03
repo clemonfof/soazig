@@ -785,6 +785,21 @@ a { color: inherit; text-decoration: none; }
 
 .art-body { padding: 0.9rem 1rem 1.1rem; font-size: 0.82rem; }
 
+/* ✅ FIX MOBILE : plus d'espace pour éviter le crop */
+@media (max-width: 640px) {
+  .art-body {
+    padding: 0.85rem 0.9rem 1rem;
+  }
+  
+  .gallery-grid {
+    gap: 1.1rem;
+  }
+  
+  .card-grid-3 {
+    gap: 1rem;
+  }
+}
+
 .art-title {
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -812,6 +827,25 @@ a { color: inherit; text-decoration: none; }
   background: var(--chip-bg);
   border: 1px solid var(--chip-border);
   color: var(--text-soft);
+}
+
+/* ✅ FIX MOBILE : badge plus petit pour "INDISPONIBLE" */
+@media (max-width: 480px) {
+  .art-status {
+    font-size: 0.60rem;
+    padding: 0.28rem 0.55rem;
+    letter-spacing: 0.10em;
+  }
+  
+  .art-title-row {
+    gap: 0.5rem;
+  }
+  
+  .art-title {
+    font-size: 0.78rem;
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 .art-meta-line { font-size: 0.78rem; color: var(--text-soft); }
