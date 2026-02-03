@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <title>Soazig Héaulme – Galerie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ pour que les composants (inputs/scrollbar) suivent clair/sombre -->
+  <meta name="color-scheme" content="light dark" />
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
+
+  <!-- Cache-bust -->
+  <link rel="stylesheet" href="style.css?v=20251224-index-logo-auto-voirplus" />
+
+  <style>
+    /* =========================
+       LIGHTBOX — DA friendly (mêmes tokens que le reste)
+    ========================= */
+    .lightbox-overlay{
+      position: fixed;
+      inset: 0;
+      background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 120;
+    }
+    .lightbox-overlay.is-visible{ opacity: 1; pointer-events: auto; }
+
+    .lightbox-inner{ max-width: 90vw; max-height: 90vh; position: relative; }
+
+    .lightbox-inner img{
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 85%, transparent);
+      box-shadow: 0 28px 90px rgba(31,42,56,0.28);
+      background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    }
+
+    .lightbox-close{
+      position: absolute;
+      top: -42px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border-soft));
+      background: var(--surface-strong);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: var(--shadow-soft);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+    .lightbox-close:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-float);
+      background: var(--surface-ink);
+    }
+
+    /* ✅ Infos œuvre à la une */
+    .hero-oeuvre-infos{
+      display: grid;
+      gap: 0.35rem;
+      padding-top: 0.2rem;
+    }
+    .hero-oeuvre-infos .hero-oeuvre-kicker{
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-soft);
+      opacity: 0.95;
+    }
+    .hero-oeuvre-infos .hero-art-caption-title{
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .hero-oeuvre-infos .hero-art-caption-meta{
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    /* =========================
+       ACTUALITÉS — BOUTON VOIR PLUS
+    ========================= */
+    .actualites-more{
+      display: flex;
+      justify-content: center;
+      margin-top: 2.2rem;
+    }
+
+    .actualites-more-link{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.4rem;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border-soft);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: var(--shadow-soft);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .actualites-more-link svg{ transition: transform 0.25s ease; }
+    .actualites-more-link:hover{
+      background: var(--surface-strong);
+      box-shadow: var(--shadow-float);
+      transform: translateY(-1px);
+    }
+    .actualites-more-link:hover svg{ transform: translateX(4px); }
+
+    /* ✅ Focus clavier visible */
+    .actualites-more-link:focus-visible,
+    #card-expo:focus-visible,
+    #card-concert:focus-visible,
+    #card-nouvelle:focus-visible{
+      outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+      outline-offset: 3px;
+      border-radius: 18px;
+    }
+
+    /* =========================
+       ✅ MENU FOOTER ACTIONS (IG/@ + THEME en bas à droite)
+       -> identique concerts.html pour que le JS place le bouton partout
+    ========================= */
+    .nav-footer{ position: relative; }
+
+    .nav-footer-actions{
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .nav-footer-actions .nav-social{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #nav-theme-slot{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ GLOBAL LOADER -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
+      <img class="site-logo"
+           src="images/autres/logo.png"
+           data-logo-dark="images/autres/logo.png"
+           data-logo-light="images/autres/logo_clair.png"
+           alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <!-- MENU OVERLAY -->
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle" aria-label="Fermer le menu">
+          <span></span>
+        </label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>
+        © 2025 · Soazig Héaulme<br />Galerie en ligne · Paris
+      </div>
+
+      <!-- ✅ ICI: actions en bas à droite (IG/@ à gauche, thème à droite) -->
+      <div class="nav-footer-actions">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+        <div id="nav-theme-slot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand" aria-label="Retour à l’accueil">
+          <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
+          <img class="site-logo"
+               src="images/autres/logo.png"
+               data-logo-dark="images/autres/logo.png"
+               data-logo-light="images/autres/logo_clair.png"
+               alt="Logo Soazig Héaulme"
+               style="height:120px;width:auto;display:block;" />
+        </a>
+
+        <!-- ✅ IMPORTANT: le JS peut fallback ici si #nav-theme-slot n'existe pas -->
+        <label for="nav-toggle" class="menu-toggle-label" aria-label="Ouvrir le menu">
+          <span></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="page-inner">
+      <section class="hero-home">
+        <div>
+          <div class="section-kicker">Galerie en ligne</div>
+          <h1 class="hero-title">Soazig Héaulme</h1>
+
+          <p class="hero-subline" style="white-space:pre-line;">
+ARTISTE PEINTRE, CHANTEUSE LYRIQUE.
+Comme un trait continu, l’expression artistique a toujours été une respiration, qui s’est imposée au fil du temps comme projet de vie.
+          </p>
+
+          <div class="hero-actions">
+            <a href="galerie.html" class="btn btn-primary">Découvrir la galerie</a>
+            <a href="apropos.html" class="btn btn-ghost">À propos</a>
+          </div>
+        </div>
+
+        <aside class="hero-art-panel">
+          <div class="hero-art-image">
+            <img src="" alt="" class="js-zoomable" id="hero-main-image" />
+          </div>
+
+          <div class="hero-oeuvre-infos">
+            <div class="hero-oeuvre-kicker">Œuvre à la une</div>
+            <div class="hero-art-caption-title" id="hero-main-title"></div>
+            <div class="hero-art-caption-meta" id="hero-main-meta"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section style="margin-top:4rem;">
+        <div class="section-kicker">Sélection</div>
+        <h2 class="section-title">Œuvres phares</h2>
+
+        <div class="gallery-grid" id="oeuvres-phares">
+          <div class="art-card">
+            <div class="art-thumb"></div>
+            <div class="art-body"></div>
+          </div>
+          <div class="art-card">
+            <div class="art-thumb"></div>
+            <div class="art-body"></div>
+          </div>
+          <div class="art-card">
+            <div class="art-thumb"></div>
+            <div class="art-body"></div>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top:4rem;" id="actus-home">
+        <div class="section-kicker">Actualités</div>
+        <h2 class="section-title">En ce moment</h2>
+
+        <div class="card-grid-3">
+          <a href="expositions.html" class="card" id="card-expo" style="display:block;">
+            <div class="card-thumb" id="expo-thumb-wrap" style="display:none;">
+              <img id="expo-thumb" alt="Exposition" loading="lazy" />
+            </div>
+            <div class="card-kicker">Exposition</div>
+            <div class="card-title"></div>
+            <div class="card-text"></div>
+          </a>
+
+          <a href="concerts.html" class="card" id="card-concert" style="display:block;">
+            <div class="card-thumb" id="concert-thumb-wrap" style="display:none;">
+              <img id="concert-thumb" alt="Concert" loading="lazy" />
+            </div>
+            <div class="card-kicker">Concert</div>
+            <div class="card-title"></div>
+            <div class="card-text"></div>
+          </a>
+
+          <a href="galerie.html" class="card" id="card-nouvelle" style="display:block;">
+            <div class="card-thumb" id="nouvelle-thumb-wrap" style="display:none;">
+              <img id="nouvelle-thumb" alt="Œuvre" loading="lazy" class="js-zoomable" />
+            </div>
+            <div class="card-kicker">Œuvre</div>
+            <div class="card-title">Nouvelle création</div>
+            <div class="card-text">Disponible prochainement</div>
+          </a>
+        </div>
+
+        <div class="actualites-more">
+          <a href="actualites.html" class="actualites-more-link">
+            <span>Voir plus</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>© 2025 · Soazig Héaulme<br />Galerie en ligne · Paris</div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="art-lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+      <img src="" alt="" />
+    </div>
+  </div>
+
+  <!-- ✅ Le JS crée déjà cette fiche dynamiquement.
+       Donc on SUPPRIME le doublon HTML pour éviter conflits d’ID / events.
+       (Si tu veux absolument la garder en dur, dis-le et je te donne la version "idempotente".) -->
+
+  <!-- JS (cache-bust) -->
+  <script src="data-loader.js?v=20251224-index-theme-slot" defer></script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <title>Expositions – Soazig Héaulme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ pour que les composants (inputs/scrollbar) suivent clair/sombre -->
+  <meta name="color-scheme" content="light dark" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
+  <link rel="stylesheet" href="style.css?v=20251224-expos-theme-slot-logo-auto" />
+
+  <style>
+    /* =========================
+       LIGHTBOX — DA friendly
+       - pas de noir pur
+       - s’appuie sur les tokens
+    ========================= */
+    .lightbox-overlay{
+      position: fixed;
+      inset: 0;
+      background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 120;
+    }
+    .lightbox-overlay.is-visible{ opacity: 1; pointer-events: auto; }
+
+    .lightbox-inner{
+      max-width: 90vw;
+      max-height: 90vh;
+      position: relative;
+    }
+
+    .lightbox-inner img{
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 85%, transparent);
+      box-shadow: 0 28px 90px rgba(31,42,56,0.28);
+      background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    }
+
+    .lightbox-close{
+      position: absolute;
+      top: -42px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border-soft));
+      background: var(--surface-strong);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: var(--shadow-soft);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+    .lightbox-close:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-float);
+      background: var(--surface-ink);
+    }
+
+    /* =========================
+       EXPOS — GRID 2 PROPRE (theme-friendly)
+    ========================= */
+    .page-inner .section-title{
+      font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin: 0.2rem 0 1rem;
+    }
+
+    .event-list{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    @media (min-width: 980px){
+      .event-list{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.85rem;
+      }
+    }
+
+    @media (min-width: 1400px){
+      .event-list{ gap: 2.15rem; }
+    }
+
+    .event-list > li{
+      padding: 1.15rem 1.35rem;
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-elevated);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.6rem;
+      overflow: hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+    .event-list > li:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-float);
+      border-color: color-mix(in srgb, var(--accent) 22%, var(--border-soft));
+    }
+
+    .event-list .event-date,
+    .event-list .expo-date{
+      margin: 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      line-height: 1.15;
+      color: var(--accent-soft);
+      text-transform: uppercase;
+    }
+
+    .event-list img{
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      margin: 0;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 92%, transparent);
+      background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
+    }
+
+    .event-list img.is-portrait{
+      max-height: 420px;
+      object-fit: contain;
+      background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
+      padding: 0.4rem;
+    }
+
+    .event-list h3,
+    .event-list .expo-title{
+      margin: 0.3rem 0 0.05rem;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .event-list .expo-meta{
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px){
+      .event-list{ gap: 1.1rem; }
+      .event-list > li{
+        padding: 0.95rem 1.05rem;
+        border-radius: 16px;
+      }
+      .event-list img{ max-height: 175px; }
+      .event-list img.is-portrait{ max-height: 320px; }
+    }
+
+    /* =========================
+       ✅ MENU FOOTER ACTIONS (IG/@ + THEME en bas à droite)
+       -> même pattern que concerts/disponibles
+    ========================= */
+    .nav-footer{ position: relative; }
+
+    .nav-footer-actions{
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .nav-footer-actions .nav-social{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #nav-theme-slot{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
+      <img class="site-logo"
+           src="images/autres/logo.png"
+           data-logo-dark="images/autres/logo.png"
+           data-logo-light="images/autres/logo_clair.png"
+           alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle"><span></span></label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>
+        © 2025 · L’atelier de Soazig<br />
+        Galerie en ligne · Aix-en-Provence
+      </div>
+
+      <!-- ✅ ICI: actions en bas à droite (IG/@ à gauche, thème à droite) -->
+      <div class="nav-footer-actions">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+        <div id="nav-theme-slot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
+          <img class="site-logo"
+               src="images/autres/logo.png"
+               data-logo-dark="images/autres/logo.png"
+               data-logo-light="images/autres/logo_clair.png"
+               alt="Logo Soazig Héaulme"
+               style="height:120px;width:auto;" />
+        </a>
+        <label for="nav-toggle" class="menu-toggle-label"><span></span></label>
+      </div>
+    </header>
+
+    <div class="page-inner">
+      <section class="page-hero">
+        <div class="page-hero-title">Expositions</div>
+      </section>
+
+      <section style="margin-bottom:3rem;">
+        <div class="section-kicker">En ce moment</div>
+        <h2 class="section-title">En cours</h2>
+        <ul id="expos-encours" class="event-list"></ul>
+      </section>
+
+      <section style="margin-bottom:3rem;">
+        <div class="section-kicker">Agenda</div>
+        <h2 class="section-title">À venir</h2>
+        <ul id="expos-avenir" class="event-list"></ul>
+      </section>
+
+      <section>
+        <div class="section-kicker">Archives</div>
+        <h2 class="section-title">Passées</h2>
+        <ul id="expos-passees" class="event-list"></ul>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          © 2025 · L’atelier de Soazig<br />
+          Galerie en ligne · Aix-en-Provence
+        </div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="art-lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+      <img src="" alt="" />
+    </div>
+  </div>
+
+  <script src="data-loader.js?v=20251224-expos-theme-slot-logo-auto" defer></script>
+
+  <!-- ✅ Portrait/paysage auto : classe sur les images injectées sur Expositions -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      function markPortraitImages(root) {
+        if (!root) return;
+        const imgs = root.querySelectorAll("img");
+        imgs.forEach((img) => {
+          if (img.dataset._ratioDone) return;
+          img.dataset._ratioDone = "1";
+
+          const apply = () => {
+            const w = img.naturalWidth || 0;
+            const h = img.naturalHeight || 0;
+            if (!w || !h) return;
+            if (h > w * 1.08) img.classList.add("is-portrait");
+          };
+
+          if (img.complete) apply();
+          else img.addEventListener("load", apply, { once: true });
+        });
+      }
+
+      markPortraitImages(document);
+
+      const targets = [
+        document.getElementById("expos-encours"),
+        document.getElementById("expos-avenir"),
+        document.getElementById("expos-passees")
+      ].filter(Boolean);
+
+      const obs = new MutationObserver(() => markPortraitImages(document));
+      targets.forEach(t => obs.observe(t, { childList: true, subtree: true }));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Confidentialité – L’atelier de Soazig</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="color-scheme" content="light dark" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Grand bloc "texte complet" (pas de vignettes) */
+    .legal-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding-bottom: 2.5rem;
+    }
+
+    .legal-block {
+      margin-top: 1.2rem;
+      padding: 1.4rem 1.6rem;
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-elevated);
+      box-shadow: var(--shadow-soft);
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      white-space: normal;
+    }
+
+    .legal-block h2 {
+      margin: 1.2rem 0 0.4rem;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-main);
+    }
+
+    .legal-block h2:first-child {
+      margin-top: 0;
+    }
+
+    .legal-block p {
+      margin: 0.45rem 0;
+    }
+
+    .legal-block ul {
+      margin: 0.4rem 0 0.8rem 1.1rem;
+      padding: 0;
+    }
+
+    .legal-block li {
+      margin: 0.25rem 0;
+    }
+
+    .legal-block strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .legal-block a {
+      color: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    .legal-block a:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================
+       MENU FOOTER : IG à gauche, THEME à droite
+    ========================= */
+    .nav-footer-right{
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .nav-theme-slot{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 44px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <!-- ✅ LOGO AUTO THEME -->
+      <img class="site-logo"
+           src="images/autres/logo.png"
+           data-logo-dark="images/autres/logo.png"
+           data-logo-light="images/autres/logo-clair.png"
+           alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <!-- MENU -->
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle"><span></span></label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>© 2025 · L’atelier de Soazig<br />Galerie en ligne · Aix-en-Provence</div>
+
+      <!-- ✅ IG / Mail à gauche, bouton thème à droite -->
+      <div class="nav-footer-right">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+
+        <!-- ✅ SLOT : data-loader.js injecte le bouton thème ici -->
+        <div class="nav-theme-slot" id="nav-theme-slot" aria-label="Changer le thème"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          <!-- ✅ LOGO AUTO THEME -->
+          <img class="site-logo"
+               src="images/autres/logo.png"
+               data-logo-dark="images/autres/logo.png"
+               data-logo-light="images/autres/logo-clair.png"
+               alt="Logo L’atelier de Soazig"
+               style="height:120px;width:auto;display:block;" />
+        </a>
+        <label for="nav-toggle" class="menu-toggle-label"><span></span></label>
+      </div>
+    </header>
+
+    <div class="page-inner legal-wrap">
+
+      <section class="page-hero">
+        <div class="page-hero-title">Confidentialité</div>
+        <div class="page-hero-meta">
+          <span>Politique de protection des données</span>
+          <span>RGPD</span>
+        </div>
+      </section>
+
+      <section class="legal-block">
+
+        <h2>1. Objet</h2>
+        <p>La présente politique de confidentialité a pour objectif d’informer les utilisateurs du site « L’atelier de Soazig » sur la manière dont leurs données personnelles peuvent être traitées, conformément à la réglementation applicable, notamment le Règlement Général sur la Protection des Données (RGPD).</p>
+
+        <h2>2. Responsable du traitement</h2>
+        <p><strong>Responsable :</strong> Soazig Héaulme (L’atelier de Soazig)</p>
+        <p><strong>Contact :</strong> <a href="mailto:soazigheaulme@gmail.com">soazigheaulme@gmail.com</a></p>
+        <p><strong>Localisation :</strong> Aix-en-Provence, France</p>
+
+        <h2>3. Données collectées</h2>
+        <p>Le site « L’atelier de Soazig » ne met pas en place de compte utilisateur, et ne collecte pas de données personnelles à des fins commerciales.</p>
+        <p>Les seules données personnelles susceptibles d’être traitées sont celles que l’utilisateur transmet volontairement lors d’une prise de contact (par exemple via un email) : nom, prénom, adresse email, contenu du message, et toute information communiquée dans cet échange.</p>
+
+        <h2>4. Finalités</h2>
+        <p>Les données éventuellement transmises sont utilisées uniquement pour :</p>
+        <ul>
+          <li>répondre aux demandes et échanges de contact ;</li>
+          <li>assurer le suivi de la relation (artistique/professionnelle) lorsque cela est nécessaire.</li>
+        </ul>
+        <p>Aucune donnée n’est vendue, louée ou cédée à des tiers.</p>
+
+        <h2>5. Base légale</h2>
+        <p>Le traitement repose sur l’intérêt légitime à répondre aux demandes de contact, et/ou sur l’exécution de mesures précontractuelles lorsqu’un échange professionnel est engagé à l’initiative de l’utilisateur.</p>
+
+        <h2>6. Durée de conservation</h2>
+        <p>Les données issues des échanges (emails) sont conservées pendant le temps nécessaire au traitement de la demande et au suivi de la relation, puis peuvent être supprimées sur demande, sauf obligations légales contraires.</p>
+
+        <h2>7. Cookies</h2>
+        <p>Le site n’utilise pas de cookies publicitaires, ni de cookies de suivi, ni d’outils de mesure d’audience de type “tracking”.</p>
+        <p>Des cookies techniques strictement nécessaires au fonctionnement du site ou liés à l’hébergement peuvent exister. Ils ne sont pas utilisés à des fins marketing.</p>
+
+        <h2>8. Destinataires</h2>
+        <p>Les données transmises sont destinées uniquement à l’éditeur du site (Soazig Héaulme). Elles ne sont pas communiquées à des tiers, sauf obligation légale.</p>
+
+        <h2>9. Sécurité</h2>
+        <p>L’éditeur met en œuvre des mesures raisonnables pour protéger les informations transmises. Toutefois, aucune méthode de transmission ou de stockage n’étant totalement sûre, une sécurité absolue ne peut être garantie.</p>
+
+        <h2>10. Vos droits</h2>
+        <p>Conformément à la réglementation en vigueur, vous disposez notamment des droits suivants :</p>
+        <ul>
+          <li>droit d’accès, de rectification et de mise à jour ;</li>
+          <li>droit d’opposition et de limitation ;</li>
+          <li>droit à l’effacement (dans les limites légales) ;</li>
+        </ul>
+        <p>Pour exercer vos droits, vous pouvez contacter : <a href="mailto:soazigheaulme@gmail.com">soazigheaulme@gmail.com</a>.</p>
+        <p>Vous pouvez également déposer une réclamation auprès de l’autorité de contrôle : la CNIL.</p>
+
+        <h2>11. Mise à jour</h2>
+        <p>La présente politique peut être modifiée à tout moment pour refléter l’évolution du site ou des obligations légales. Nous vous invitons à la consulter régulièrement.</p>
+
+      </section>
+
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>© 2025 · L’atelier de Soazig<br />Galerie en ligne · Aix-en-Provence</div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="data-loader.js" defer></script>
+</body>
+</html>

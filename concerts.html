@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <title>Concerts – Soazig Héaulme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
+  <link rel="stylesheet" href="style.css?v=20251224-concerts-logo-auto" />
+
+  <style>
+    /* =========================
+       LIGHTBOX — DA friendly
+    ========================= */
+    .lightbox-overlay{
+      position: fixed;
+      inset: 0;
+      background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 120;
+    }
+    .lightbox-overlay.is-visible{ opacity: 1; pointer-events: auto; }
+
+    .lightbox-inner{ max-width: 90vw; max-height: 90vh; position: relative; }
+
+    .lightbox-inner img{
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 85%, transparent);
+      box-shadow: 0 28px 90px rgba(31,42,56,0.28);
+      background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    }
+
+    .lightbox-close{
+      position: absolute;
+      top: -42px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border-soft));
+      background: var(--surface-strong);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: var(--shadow-soft);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+    .lightbox-close:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-float);
+      background: var(--surface-ink);
+    }
+
+    /* =========================
+       CONCERTS — GRID 2 PROPRE
+    ========================= */
+
+    .page-inner .section-title{
+      font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin: 0.2rem 0 1rem;
+    }
+
+    .event-list{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    @media (min-width: 980px){
+      .event-list{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.85rem; }
+    }
+    @media (min-width: 1400px){
+      .event-list{ gap: 2.15rem; }
+    }
+
+    .event-list > li{
+      padding: 1.15rem 1.35rem;
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-elevated);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.6rem;
+      overflow: hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+    .event-list > li:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-float);
+      border-color: color-mix(in srgb, var(--accent) 22%, var(--border-soft));
+    }
+
+    .event-list .event-date{
+      margin: 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      line-height: 1.15;
+      color: var(--accent-soft);
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .event-list .event-media{ margin: 0; padding: 0; min-height: unset; display: block; }
+
+    .event-list img{
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      margin: 0;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 92%, transparent);
+      background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
+    }
+
+    .event-list img.is-portrait{
+      max-height: 420px;
+      object-fit: contain;
+      background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
+      padding: 0.4rem;
+    }
+
+    .event-list h3,
+    .event-list .event-title{
+      margin: 0.3rem 0 0.05rem;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .event-list p,
+    .event-list span,
+    .event-list .event-meta{
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px){
+      .event-list{ gap: 1.1rem; }
+      .event-list > li{ padding: 0.95rem 1.05rem; border-radius: 16px; }
+      .event-list img{ max-height: 175px; }
+      .event-list img.is-portrait{ max-height: 320px; }
+    }
+
+    /* =========================
+       ✅ MENU FOOTER ACTIONS (IG/@ + THEME en bas à droite)
+       (Si ton style.css a déjà .nav-footer en flex, on ne le casse pas :
+        on fait un wrapper sans position:absolute, stable partout.)
+    ========================= */
+    .nav-footer{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-footer-actions{
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-footer-actions .nav-social{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #nav-theme-slot{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ GLOBAL LOADER -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img class="site-logo"
+           src="images/autres/logo.png"
+           data-logo-dark="images/autres/logo.png"
+           data-logo-light="images/autres/logo_clair.png"
+           alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle"><span></span></label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>
+        © 2025 · L’atelier de Soazig<br />
+        Galerie en ligne · Aix-en-Provence
+      </div>
+
+      <!-- ✅ en bas à droite : IG/@ à gauche, bouton thème à droite -->
+      <div class="nav-footer-actions">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+        <div id="nav-theme-slot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          <img class="site-logo"
+               src="images/autres/logo.png"
+               data-logo-dark="images/autres/logo.png"
+               data-logo-light="images/autres/logo_clair.png"
+               alt="Logo"
+               style="height:120px;width:auto;" />
+        </a>
+
+        <label for="nav-toggle" class="menu-toggle-label"><span></span></label>
+      </div>
+    </header>
+
+    <div class="page-inner">
+      <section class="page-hero">
+        <div class="page-hero-title">Concerts</div>
+      </section>
+
+      <section>
+        <div class="section-kicker">Agenda</div>
+        <h2 class="section-title">Prochains concerts</h2>
+        <ul id="concerts-avenir" class="event-list"></ul>
+      </section>
+
+      <section style="margin-top:3rem;">
+        <div class="section-kicker">Archives</div>
+        <h2 class="section-title">Concerts passés</h2>
+        <ul id="concerts-passes" class="event-list"></ul>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          © 2025 · L’atelier de Soazig<br />
+          Galerie en ligne · Aix-en-Provence
+        </div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="art-lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+      <img src="" alt="" />
+    </div>
+  </div>
+
+  <!-- ⚠️ IMPORTANT: change aussi le JS (ensureThemeToggleButton) comme je t’ai donné.
+       Ici on garde juste un cache-bust. -->
+  <script src="data-loader.js?v=20251224-bottom-right-slot" defer></script>
+
+  <!-- Portrait/paysage auto -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      function markPortraitImages(root) {
+        if (!root) return;
+        const imgs = root.querySelectorAll("img");
+        imgs.forEach((img) => {
+          if (img.dataset._ratioDone) return;
+          img.dataset._ratioDone = "1";
+
+          const apply = () => {
+            const w = img.naturalWidth || 0;
+            const h = img.naturalHeight || 0;
+            if (!w || !h) return;
+            if (h > w * 1.08) img.classList.add("is-portrait");
+          };
+
+          if (img.complete) apply();
+          else img.addEventListener("load", apply, { once: true });
+        });
+      }
+
+      markPortraitImages(document);
+
+      const targets = [
+        document.getElementById("concerts-avenir"),
+        document.getElementById("concerts-passes")
+      ].filter(Boolean);
+
+      const obs = new MutationObserver(() => markPortraitImages(document));
+      targets.forEach(t => obs.observe(t, { childList: true, subtree: true }));
+    });
+  </script>
+
+  <!-- Lightbox -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const overlay = document.getElementById("art-lightbox");
+      const img = overlay.querySelector("img");
+      const closeBtn = overlay.querySelector(".lightbox-close");
+
+      function openLightbox(src, alt) {
+        img.src = src;
+        img.alt = alt || "";
+        overlay.classList.add("is-visible");
+      }
+
+      function closeLightbox() {
+        overlay.classList.remove("is-visible");
+        img.src = "";
+      }
+
+      document.body.addEventListener("click", (e) => {
+        const target = e.target.closest(".js-zoomable");
+        if (target) {
+          e.preventDefault();
+          openLightbox(target.src, target.alt);
+        }
+      });
+
+      closeBtn.addEventListener("click", closeLightbox);
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeLightbox();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    });
+  </script>
+</body>
+</html>

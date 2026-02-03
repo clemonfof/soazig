@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Mentions légales – L’atelier de Soazig</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="color-scheme" content="light dark" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png">
+  <link rel="stylesheet" href="style.css?v=20251224-mentions-legales">
+
+  <style>
+    /* Wrapper */
+    .legal-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding-bottom: 2.5rem;
+    }
+
+    /* ✅ VIGNETTE comme Confidentialité */
+    .legal-block {
+      margin-top: 1.2rem;
+      padding: 1.4rem 1.6rem;
+      border-radius: var(--radius-xl);
+
+      background: linear-gradient(135deg,
+          color-mix(in srgb, var(--bg-soft) 72%, transparent),
+          color-mix(in srgb, var(--bg-elevated) 92%, transparent));
+
+      border: 1px solid color-mix(in srgb, var(--border-soft) 88%, transparent);
+      box-shadow: var(--shadow-soft);
+
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      white-space: normal;
+    }
+
+    .legal-block h2 {
+      margin: 1.2rem 0 0.4rem;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-main);
+    }
+
+    .legal-block h2:first-child {
+      margin-top: 0;
+    }
+
+    .legal-block h3 {
+      margin: 0.9rem 0 0.25rem;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-main);
+      opacity: 0.92;
+    }
+
+    .legal-block p {
+      margin: 0.45rem 0;
+    }
+
+    .legal-block ul {
+      margin: 0.4rem 0 0.8rem 1.1rem;
+      padding: 0;
+    }
+
+    .legal-block li {
+      margin: 0.25rem 0;
+    }
+
+    .legal-block strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .legal-block a {
+      color: var(--accent-hover);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+      width: fit-content;
+    }
+
+    .legal-block a:hover {
+      border-bottom-color: color-mix(in srgb, var(--accent) 75%, transparent);
+    }
+
+    /* ✅ FOOTER MENU : IG à gauche, THEME à droite (comme expositions/contact) */
+    .nav-footer-right {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .nav-theme-slot {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 44px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img class="site-logo"
+           src="images/autres/logo.png"
+           data-logo-dark="images/autres/logo.png"
+           data-logo-light="images/autres/logo-clair.png"
+           alt="Chargement">
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <!-- MENU -->
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle"><span></span></label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>© 2025 · L’atelier de Soazig<br>Galerie en ligne · Aix-en-Provence</div>
+
+      <!-- ✅ IG/Mail à gauche, bouton thème à droite -->
+      <div class="nav-footer-right">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+
+        <!-- ✅ SLOT : data-loader.js injecte le bouton thème ici -->
+        <div class="nav-theme-slot" id="nav-theme-slot" aria-label="Changer le thème"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          <img class="site-logo"
+               src="images/autres/logo.png"
+               data-logo-dark="images/autres/logo.png"
+               data-logo-light="images/autres/logo-clair.png"
+               alt="Logo L’atelier de Soazig"
+               style="height:120px;width:auto;display:block;">
+        </a>
+        <label for="nav-toggle" class="menu-toggle-label"><span></span></label>
+      </div>
+    </header>
+
+    <div class="page-inner legal-wrap">
+
+      <section class="page-hero">
+        <div class="page-hero-title">Mentions légales</div>
+        <div class="page-hero-meta">
+          <span>Informations légales & conditions d’utilisation</span>
+          <span>Site vitrine</span>
+        </div>
+      </section>
+
+      <!-- ✅ GRAND BLOC (vignette) -->
+      <section class="legal-block">
+
+        <h2>Définitions</h2>
+        <p><strong>Client :</strong> tout professionnel ou personne physique capable au sens des articles 1123 et suivants du Code civil, ou personne morale, qui visite le Site objet des présentes conditions.</p>
+        <p><strong>Utilisateur :</strong> internaute se connectant et utilisant le site « L’atelier de Soazig ».</p>
+        <p><strong>Site :</strong> site internet « L’atelier de Soazig ».</p>
+        <p><strong>Contenu :</strong> ensemble des éléments constituant l’information présente sur le Site, notamment textes, images, œuvres, photographies, graphismes, logos et éléments visuels.</p>
+        <p><strong>Informations personnelles :</strong> « Les informations qui permettent, sous quelque forme que ce soit, directement ou non, l’identification des personnes physiques auxquelles elles s’appliquent » (article 4 de la loi n°78-17 du 6 janvier 1978).</p>
+
+        <h2>1. Présentation du site internet</h2>
+        <p>En vertu de l’article 6 de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l’économie numérique, il est précisé aux utilisateurs du Site l’identité des différents intervenants dans le cadre de sa réalisation et de son suivi :</p>
+
+        <p><strong>Propriétaire / Éditeur :</strong> L’atelier de Soazig</p>
+        <p><strong>Statut :</strong> Artiste-auteur</p>
+        <p><strong>Localisation :</strong> Aix-en-Provence, France</p>
+
+        <p><strong>Responsable de publication :</strong> Soazig Héaulme</p>
+        <p><strong>Contact :</strong> <a href="mailto:soazigheaulme@gmail.com">soazigheaulme@gmail.com</a></p>
+
+        <p><strong>Hébergeur :</strong> Hostinger</p>
+        <p><strong>Site de l’hébergeur :</strong> <a href="https://www.hostinger.com/fr" target="_blank" rel="noopener">https://www.hostinger.com/fr</a></p>
+
+        <h2>2. Conditions générales d’utilisation du site</h2>
+        <p>Le Site constitue une œuvre de l’esprit protégée par les dispositions du Code de la Propriété Intellectuelle et des réglementations internationales applicables.</p>
+        <p>L’utilisation du Site implique l’acceptation pleine et entière des présentes mentions légales. Ces conditions d’utilisation sont susceptibles d’être modifiées ou complétées à tout moment, les utilisateurs du Site sont donc invités à les consulter de manière régulière.</p>
+        <p>Le Site est mis à jour régulièrement. De la même façon, les présentes mentions légales peuvent être modifiées à tout moment : elles s’imposent néanmoins à l’utilisateur qui est invité à s’y référer le plus souvent possible afin d’en prendre connaissance.</p>
+
+        <h2>3. Description des services fournis</h2>
+        <p>Le Site a pour objet de fournir une information concernant l’activité artistique de Soazig Héaulme, notamment les œuvres picturales, expositions, concerts et actualités liées à l’atelier.</p>
+        <p>L’éditeur s’efforce de fournir sur le Site des informations aussi précises que possible. Toutefois, il ne pourra être tenu responsable des oublis, des inexactitudes et des carences dans la mise à jour, qu’elles soient de son fait ou du fait des tiers partenaires qui lui fournissent ces informations.</p>
+        <p>Toutes les informations indiquées sur le Site sont données à titre indicatif, et sont susceptibles d’évoluer. Par ailleurs, les renseignements figurant sur le Site ne sont pas exhaustifs. Ils sont donnés sous réserve de modifications ayant été apportées depuis leur mise en ligne.</p>
+
+        <h2>4. Limitations contractuelles sur les données techniques</h2>
+        <p>Le Site utilise la technologie JavaScript.</p>
+        <p>Le Site Internet ne pourra être tenu responsable de dommages matériels liés à l’utilisation du Site. De plus, l’utilisateur du Site s’engage à accéder au Site en utilisant un matériel récent, ne contenant pas de virus et avec un navigateur de dernière génération mis à jour.</p>
+        <p>Le Site est hébergé chez un prestataire situé dans l’Union Européenne (selon l’infrastructure de l’hébergeur) conformément aux dispositions du Règlement Général sur la Protection des Données (RGPD : n°2016-679).</p>
+        <p>L’objectif est d’apporter une prestation qui assure le meilleur taux d’accessibilité. L’hébergeur assure la continuité de son service 24 heures sur 24, tous les jours de l’année. Il se réserve néanmoins la possibilité d’interrompre le service d’hébergement pour des durées aussi courtes que possible, notamment à des fins de maintenance et d’amélioration de ses infrastructures.</p>
+
+        <h2>5. Propriété intellectuelle et contrefaçons</h2>
+        <p>L’atelier de Soazig est propriétaire des droits de propriété intellectuelle et détient les droits d’usage sur tous les éléments accessibles sur le Site, notamment les textes, images, œuvres, photographies, graphismes, logos et icônes.</p>
+        <p>Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du Site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable.</p>
+        <p>Toute exploitation non autorisée du Site ou de l’un quelconque des éléments qu’il contient sera considérée comme constitutive d’une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de la Propriété Intellectuelle.</p>
+
+        <h2>6. Limitations de responsabilité</h2>
+        <p>L’éditeur agit en tant qu’éditeur du Site. Il est responsable de la qualité et de la véracité du Contenu qu’il publie.</p>
+        <p>Il ne pourra être tenu responsable des dommages directs et indirects causés au matériel de l’utilisateur lors de l’accès au Site, et résultant soit de l’utilisation d’un matériel ne répondant pas aux spécifications indiquées ci-dessus, soit de l’apparition d’un bug ou d’une incompatibilité.</p>
+        <p>Le Site peut contenir des liens hypertextes vers d’autres sites. L’éditeur n’a pas la possibilité de vérifier le contenu des sites ainsi visités et n’assumera en conséquence aucune responsabilité de ce fait.</p>
+
+        <h2>7. Gestion des données personnelles</h2>
+        <p>Le Site ne commercialise pas vos données personnelles et n’effectue pas de collecte à des fins publicitaires.</p>
+        <p>Les échanges se font par contact direct via l’adresse email indiquée. Les données éventuellement transmises (nom, email, message) sont utilisées uniquement pour répondre aux demandes et ne sont pas cédées à des tiers.</p>
+        <p>Conformément à la réglementation européenne en vigueur, vous disposez des droits d’accès, de rectification, d’opposition, de limitation et d’effacement. Pour exercer ces droits, vous pouvez écrire à : <a href="mailto:soazigheaulme@gmail.com">soazigheaulme@gmail.com</a>.</p>
+        <p>Vous pouvez également déposer une réclamation auprès de l’autorité de contrôle compétente : la CNIL.</p>
+
+        <h2>8. Liens hypertextes et cookies</h2>
+        <p>Le Site peut contenir des liens hypertextes vers des sites tiers. L’éditeur ne peut pas vérifier le contenu de ces sites et décline toute responsabilité à ce titre.</p>
+        <p>Le Site n’utilise pas de cookies de suivi, de mesure d’audience ou de publicité. Des cookies techniques strictement nécessaires au bon fonctionnement peuvent être utilisés par l’hébergeur.</p>
+
+        <h2>9. Droit applicable et attribution de juridiction</h2>
+        <p>Tout litige en relation avec l’utilisation du Site est soumis au droit français.</p>
+        <p>En dehors des cas où la loi ne le permet pas, il est fait attribution de juridiction aux tribunaux compétents du ressort d’<strong>Aix-en-Provence</strong>.</p>
+
+      </section>
+
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>© 2025 · L’atelier de Soazig<br>Galerie en ligne · Aix-en-Provence</div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="data-loader.js" defer></script>
+</body>
+</html>

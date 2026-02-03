@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>404 – Page introuvable · Soazig Héaulme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ Hint navigateur pour widgets (barres, champs…) quand l’utilisateur suit le thème -->
+  <meta name="color-scheme" content="light dark" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png">
+  <link rel="stylesheet" href="style.css?v=20251222-404">
+
+  <style>
+    /* ✅ Styles mini pour éviter l'inline crade et garder propre */
+    .page-404 {
+      text-align: center;
+      padding-top: 6rem;
+      padding-bottom: 2rem;
+    }
+
+    .page-404-text {
+      max-width: 520px;
+      margin: 2.5rem auto;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .page-404-actions {
+      margin-top: 2.2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img src="images/autres/logo.png" alt="Chargement">
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <!-- MENU -->
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle" aria-label="Fermer le menu">
+          <span></span>
+        </label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>
+        © 2025 · Soazig Héaulme<br>
+        Galerie en ligne · Paris
+      </div>
+      <div class="nav-social">
+        <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+        <a href="mailto:soazigheaulme@gmail.com">@</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand" aria-label="Retour à l’accueil">
+          <img src="images/autres/logo.png" alt="Logo Soazig Héaulme" style="height:120px;width:auto;display:block;">
+        </a>
+
+        <!-- ✅ Le bouton thème sera injecté ici automatiquement par data-loader.js -->
+
+        <label for="nav-toggle" class="menu-toggle-label" aria-label="Ouvrir le menu">
+          <span></span>
+        </label>
+      </div>
+    </header>
+
+    <!-- CONTENU 404 -->
+    <main class="page-inner page-404">
+      <section class="page-hero">
+        <div class="page-hero-title">404</div>
+        <div class="page-hero-meta">
+          <span>Page introuvable</span>
+          <span>Cette page n’existe pas ou plus</span>
+        </div>
+      </section>
+
+      <p class="page-404-text">
+        La page que vous cherchez n’a pas été trouvée.
+        Elle a peut-être été déplacée, renommée ou supprimée.
+      </p>
+
+      <div class="page-404-actions">
+        <a href="index.html" class="btn btn-primary">Retour à l’accueil</a>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          © 2025 · Soazig Héaulme<br>
+          Galerie en ligne · Paris
+        </div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT GLOBAL -->
+  <script src="data-loader.js" defer></script>
+
+</body>
+
+</html>

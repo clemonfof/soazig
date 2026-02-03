@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>À propos – Soazig Héaulme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* =========================
+       LIGHTBOX — DA friendly
+       - pas de noir pur
+       - s’appuie sur les tokens
+    ========================= */
+    .lightbox-overlay{
+      position: fixed;
+      inset: 0;
+      background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 120;
+    }
+    .lightbox-overlay.is-visible{ opacity: 1; pointer-events: auto; }
+
+    .lightbox-inner{
+      max-width: 90vw;
+      max-height: 90vh;
+      position: relative;
+    }
+
+    .lightbox-inner img{
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 85%, transparent);
+      box-shadow: 0 28px 90px rgba(31,42,56,0.28);
+      background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    }
+
+    .lightbox-close{
+      position: absolute;
+      top: -42px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border-soft));
+      background: var(--surface-strong);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: var(--shadow-soft);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+    .lightbox-close:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-float);
+      background: var(--surface-ink);
+    }
+
+    /* =========================
+       MENU FOOTER : IG à gauche, THEME à droite
+    ========================= */
+    .nav-footer-right{
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .nav-theme-slot{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 44px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img class="site-logo" src="images/autres/logo.png" alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle">
+          <span></span>
+        </label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>
+        © 2025 · Soazig Héaulme<br />Galerie en ligne · Paris
+      </div>
+
+      <!-- ✅ IG / Mail à gauche, bouton thème à droite -->
+      <div class="nav-footer-right">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+
+        <!-- ✅ SLOT : data-loader.js injecte le bouton thème ici -->
+        <div class="nav-theme-slot" id="nav-theme-slot" aria-label="Changer le thème"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          <img class="site-logo" src="images/autres/logo.png" alt="Logo Soazig Héaulme" style="height:120px;width:auto;display:block;" />
+        </a>
+        <label for="nav-toggle" class="menu-toggle-label">
+          <span></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="page-inner">
+
+      <section class="page-hero">
+        <div class="page-hero-title">À propos</div>
+        <div class="page-hero-meta">
+          <span>Parcours artistique & lyrique</span>
+          <span>Peinture · Chant lyrique</span>
+        </div>
+      </section>
+
+      <section class="about-layout">
+
+        <div class="about-portrait">
+          <img src="images/autres/portrait.png" alt="Portrait Soazig Héaulme" class="js-zoomable" />
+        </div>
+
+        <div class="about-text" style="white-space:pre-line;">
+
+ARTISTE PEINTRE, CHANTEUSE LYRIQUE.
+Comme un trait continu, l’expression artistique a toujours été une respiration, qui s’est imposée au fil du
+temps comme projet de vie.
+La peinture et le chant, les deux disciplines trouvent écho l’une à l’autre et me définissent aujourd’hui.
+Bretonne accostée dans le sud de la france, peintre lyrique, ici ou ailleurs cela ne me quitte jamais, au
+bout de mes doigts l’océan pénétrant. Je me pose là, devant le ciel immense et cette mer vivante, aux
+frontières de l’abstrait, comme autant de notes sur une partition, retranscris la musique du paysage.
+
+PARCOURS
+
+• Formation artistique
+Apprentissage dans un atelier de peintres à Aix-en-Provence afin de préparer le concours d’entrée aux Beaux-Arts.
+Les Beaux-Arts d’Aix-en-Provence. Formation professionnelle au trompe-l’oeil et à la peinture décorative à l’école de Pantin.
+Formation au chant lyrique en cours particuliers avec Isabelle Cambrilat à Eguilles et Guy Lacayrerie à Marseille.
+
+• Parcours professionnel
+Animation d’ateliers de peinture en milieu hospitalier psychiatrique (CH Montperrin à Aix-en-Provence et Edouard Toulouse à Marseille)
+Coloriste dans le dessin animé à Paris (Astérix et Obélix, Studio Gaumont. Babar, Tintin, Black et Mortimer, Orson et Olivia, Studio Ellipse.
+Le Marsupilami, Studio Marathon). Animation d’ateliers de peinture à La Maison de Gardane. Secrétariat, logistique, livraison de paniers au magasin Ma Terre, 100% bio 100% local. Artiste peintre et chanteuse lyrique.
+
+• Les Expositions
+Salon de l’Agriculture 2002 en partenariat avec la galerie Courant d’Art Paris 3ème. Atelier collectif à Marseille. Divers salons de la
+nature dans les Bouches-du-Rhône (Trets, la Roque d’Anthéron, Bouc-Bel-Air ). Expositions collectives à la galerie d’art de l’ESDAC à
+Aix-en-Provence. Expositions individuelles : La salle Mistral à Eguilles (13 ), Librairie Forum Harmonia Mundi à Aix-en-Provence, Ma Terre
+à Aix-en-Provence, La Clé des Champs à Ventabren, Le Château Revelette à Jouques, Studio Azoé Aix-en-Provence, La Porte Rouge
+Atelier Galerie à Plogoff, Le marché bio local et musical de Pont-Croix, Atelier de l’Image à Pont-Croix, La Méduse à Paris, expo-
+concert chez l’habitant à Eguilles, expo-concert La Fanfare Culture à Aix-en-Provence, Tableaux à emporter à « l’atelier de Soazig »
+exposition permanente à Aix-en-Provence.
+••• Jalonné de nombreux concerts et récitals.
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>© 2025 · Soazig Héaulme<br />Galerie en ligne · Paris</div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="art-lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+      <img src="" alt="" />
+    </div>
+  </div>
+
+  <script src="data-loader.js" defer></script>
+</body>
+
+</html>

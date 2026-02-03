@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<script>
+(function() {
+  'use strict';
+  const THEME_KEY = 'soazig_theme';
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <title>Actualités – Soazig Héaulme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* =========================
+       LIGHTBOX — DA friendly
+    ========================= */
+    .lightbox-overlay{
+      position: fixed;
+      inset: 0;
+      background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 120;
+    }
+    .lightbox-overlay.is-visible{ opacity: 1; pointer-events: auto; }
+
+    .lightbox-inner{
+      max-width: 90vw;
+      max-height: 90vh;
+      position: relative;
+    }
+
+    .lightbox-inner img{
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid color-mix(in srgb, var(--border-soft) 85%, transparent);
+      box-shadow: 0 28px 90px rgba(31,42,56,0.28);
+      background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    }
+
+    .lightbox-close{
+      position: absolute;
+      top: -42px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border-soft));
+      background: var(--surface-strong);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: var(--shadow-soft);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+    .lightbox-close:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-float);
+      background: var(--surface-ink);
+    }
+
+    /* =========================
+       ACTUALITÉS — GRID UNIFORME + FILTRES
+    ========================= */
+    #actualites-grid{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.6rem;
+    }
+    @media (max-width: 1100px){
+      #actualites-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px){
+      #actualites-grid{ grid-template-columns: 1fr; }
+    }
+
+    .actu-filters{
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin: 1.2rem 0 1.6rem;
+    }
+    .actu-filter{
+      padding: .55rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--chip-border);
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 180ms ease, transform 180ms ease, border-color 180ms ease;
+    }
+    .actu-filter:hover{
+      background: var(--chip-bg-hover);
+      transform: translateY(-1px);
+    }
+    .actu-filter.is-active{
+      border-color: var(--chip-active-border);
+      background: var(--chip-active-bg);
+      color: var(--chip-active-text);
+    }
+
+    .actu-card{
+      display: flex;
+      flex-direction: column;
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-elevated);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      min-height: 420px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+    .actu-card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-float);
+      border-color: color-mix(in srgb, var(--accent) 22%, var(--border-soft));
+    }
+
+    .actu-card .actu-thumb{
+      aspect-ratio: 16 / 10;
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 1px solid color-mix(in srgb, var(--separator) 92%, transparent);
+      background: color-mix(in srgb, var(--bg-elevated) 86%, var(--text-main) 4%);
+    }
+    .actu-card .actu-thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .actu-card .actu-body{
+      padding: 1.1rem 1.25rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      flex: 1;
+    }
+    .actu-card .actu-kicker{
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+    .actu-card .actu-title{
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+    .actu-card .actu-meta{
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .actu-card .actu-desc{
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .actu-card .actu-cta{
+      margin-top: auto;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-hover);
+      text-decoration: none;
+    }
+    .actu-card .actu-cta:hover{ text-decoration: underline; }
+
+    .actu-card.is-hidden{ display: none; }
+
+    @media (max-width: 640px){
+      .actu-card{ min-height: 400px; }
+      .actu-card .actu-body{ padding: 0.95rem 1.05rem 1rem; }
+    }
+
+    /* =========================
+       MENU FOOTER : IG à gauche, THEME à droite
+    ========================= */
+    .nav-footer-right{
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    /* le JS viendra injecter le bouton ici */
+    .nav-theme-slot{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 44px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img class="site-logo" src="images/autres/logo.png" alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+  <nav class="site-nav">
+    <div class="nav-top-block">
+      <div class="nav-top-row">
+        <div class="nav-top-left">
+          <div class="nav-label">Menu principal</div>
+          <div class="nav-lang">
+            <a href="index.html" class="active">FR</a>
+            <a href="en/index.html">EN</a>
+          </div>
+        </div>
+        <label for="nav-toggle" class="menu-toggle-label nav-top-toggle">
+          <span></span>
+        </label>
+      </div>
+
+      <ul class="nav-main-list">
+        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-footer">
+      <div>
+        © 2025 · L’atelier de Soazig<br />
+        Galerie en ligne · Aix-en-Provence
+      </div>
+
+      <!-- ✅ IG / Mail à gauche, bouton thème à droite -->
+      <div class="nav-footer-right">
+        <div class="nav-social">
+          <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
+          <a href="mailto:soazigheaulme@gmail.com">@</a>
+        </div>
+
+        <!-- ✅ SLOT : data-loader.js doit injecter le bouton ici -->
+        <div class="nav-theme-slot" id="nav-theme-slot" aria-label="Changer le thème"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          <img class="site-logo" src="images/autres/logo.png" alt="Logo Soazig Héaulme" style="height:120px;width:auto;display:block;" />
+        </a>
+
+        <!-- ⛔️ IMPORTANT : on ne met PLUS de slot ici. Le JS doit arrêter d’injecter dans le header -->
+
+        <label for="nav-toggle" class="menu-toggle-label">
+          <span></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="page-inner">
+      <section class="page-hero">
+        <div class="page-hero-title">Actualités</div>
+        <div class="page-hero-meta">
+          <span>Événements à venir</span>
+          <span>Expositions · Concerts · Nouvelles œuvres</span>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-kicker">À venir</div>
+        <h2 class="section-title">Prochaines actualités</h2>
+
+        <div class="actu-filters" id="actu-filters">
+          <button class="actu-filter is-active" data-filter="all" type="button">Tous</button>
+          <button class="actu-filter" data-filter="expo" type="button">Expositions</button>
+          <button class="actu-filter" data-filter="concert" type="button">Concerts</button>
+          <button class="actu-filter" data-filter="oeuvre" type="button">Œuvres</button>
+        </div>
+
+        <div id="actualites-grid" class="actu-grid"></div>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          © 2025 · L’atelier de Soazig<br />
+          Galerie en ligne · Aix-en-Provence
+        </div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="confidentialite.html">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="lightbox-overlay" id="art-lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+      <img src="" alt="" />
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const filtersWrap = document.getElementById("actu-filters");
+      const grid = document.getElementById("actualites-grid");
+      if (!filtersWrap || !grid) return;
+
+      const buttons = Array.from(filtersWrap.querySelectorAll(".actu-filter"));
+
+      function applyFilter(type) {
+        const cards = Array.from(grid.querySelectorAll(".actu-card"));
+
+        buttons.forEach(b => b.classList.toggle("is-active", b.dataset.filter === type));
+
+        cards.forEach(card => {
+          const cardType = (card.dataset.type || "").toLowerCase();
+          const show = (type === "all") ? true : (cardType === type);
+          card.classList.toggle("is-hidden", !show);
+        });
+      }
+
+      filtersWrap.addEventListener("click", (e) => {
+        const btn = e.target.closest(".actu-filter");
+        if (!btn) return;
+        applyFilter(btn.dataset.filter);
+      });
+
+      const obs = new MutationObserver(() => {
+        const active = buttons.find(b => b.classList.contains("is-active"));
+        applyFilter(active ? active.dataset.filter : "all");
+      });
+      obs.observe(grid, { childList: true, subtree: true });
+
+      applyFilter("all");
+    });
+  </script>
+
+  <script src="data-loader.js" defer></script>
+</body>
+</html>
