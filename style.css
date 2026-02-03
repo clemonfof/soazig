@@ -1338,14 +1338,15 @@ body.lightbox-open {
   background: color-mix(in srgb, var(--bg-page) 55%, rgba(14,20,32,0.55));
   backdrop-filter: blur(10px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
   z-index: 10000;
-  /* ✅ Permettre le scroll dans la lightbox */
-  overflow: auto;
+  /* ✅ SEULE scrollbar ici */
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 70px 20px 20px;
 }
 
@@ -1355,16 +1356,17 @@ body.lightbox-open {
 }
 
 .lightbox-inner { 
-  /* ✅ Permettre à l'image de dépasser si nécessaire */
+  /* ✅ Pas de scroll ici, juste un conteneur */
   max-width: 90vw;
-  max-height: none;
   position: relative;
-  margin: auto;
+  margin: auto 0;
+  overflow: visible;
 }
 
 .lightbox-inner img {
-  /* ✅ Image peut prendre sa taille naturelle */
+  /* ✅ Image prend sa taille naturelle */
   max-width: 90vw;
+  width: auto;
   height: auto;
   display: block;
   border-radius: 14px;
