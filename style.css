@@ -1379,6 +1379,77 @@ img.img-smooth.is-ready {
 }
 
 /* =========================================================
+   PAGE ACTUALITÉS - Styles spécifiques
+   ========================================================= */
+
+#actualites-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+@media (max-width: 1100px) {
+  #actualites-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  #actualites-grid { grid-template-columns: 1fr; }
+}
+
+.actu-filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1.2rem 0 1.6rem;
+}
+
+.actu-filter {
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--chip-border);
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.actu-filter:hover {
+  background: var(--chip-bg-hover);
+  transform: translateY(-1px);
+}
+
+.actu-filter.is-active {
+  border-color: var(--chip-active-border);
+  background: var(--chip-active-bg);
+  color: var(--chip-active-text);
+}
+
+.actu-card.is-hidden {
+  display: none;
+}
+
+/* =========================================================
+   MENU FOOTER - Slot thème
+   ========================================================= */
+
+.nav-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.nav-theme-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 44px;
+}
+
+/* =========================================================
    LIGHTBOX - SCROLL ACTIVÉ POUR LES GRANDES IMAGES
    ========================================================= */
 
