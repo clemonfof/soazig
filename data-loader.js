@@ -391,10 +391,16 @@ function initLightbox() {
     img.src = src;
     img.alt = alt || "";
     overlay.classList.add("is-visible");
+    // ✅ Bloquer le scroll de la page
+    document.body.classList.add("lightbox-open");
+    // ✅ Remettre le scroll de la lightbox en haut
+    overlay.scrollTop = 0;
   }
 
   function closeLightbox() {
     overlay.classList.remove("is-visible");
+    // ✅ Réactiver le scroll de la page
+    document.body.classList.remove("lightbox-open");
     img.src = "";
     img.alt = "";
   }
@@ -403,18 +409,33 @@ function initLightbox() {
     const t = e.target.closest(".js-zoomable");
     if (t && t.tagName === "IMG" && t.getAttribute("src")) {
       e.preventDefault();
+      e.stopPropagation();
       openLightbox(t.src, t.alt);
     }
   });
 
-  if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeLightbox();
+    });
+  }
+  
   overlay.addEventListener("click", (e) => {
+    // ✅ Ne fermer que si on clique sur l'overlay lui-même
     if (e.target === overlay) closeLightbox();
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeLightbox();
+    if (e.key === "Escape" && overlay.classList.contains("is-visible")) {
+      closeLightbox();
+    }
   });
+
+  // ✅ Empêcher la propagation du scroll depuis la lightbox vers la page
+  overlay.addEventListener("wheel", (e) => {
+    e.stopPropagation();
+  }, { passive: true });
 }
 
 // ----------------------------------------------------
