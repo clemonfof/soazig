@@ -391,6 +391,12 @@ a { color: inherit; text-decoration: none; }
   gap: 0.8rem;
 }
 
+.brand img.site-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
 .brand-logo {
   width: 42px;
   height: 42px;
