@@ -57,6 +57,14 @@
 
 <body>
 
+  <!-- ✅ GLOBAL LOADER -->
+  <div id="global-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img class="site-logo" src="images/autres/logo.png" alt="Chargement" />
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
   <!-- MENU -->
@@ -148,12 +156,29 @@
 
   </div>
 
-  <!-- SCRIPT SIMPLE POUR LE BOUTON THEME -->
+  <!-- SCRIPT SIMPLE POUR LE BOUTON THEME ET LOADER -->
   <script>
     (function() {
       'use strict';
       const THEME_KEY = 'soazig_theme';
       
+      // ✅ MASQUER LE LOADER APRÈS 1.3s
+      function hideLoader() {
+        const loader = document.getElementById('global-loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 400);
+        }
+      }
+      
+      // Masquer le loader au chargement
+      window.addEventListener('load', () => {
+        setTimeout(hideLoader, 1300);
+      });
+      
+      // Créer le bouton de thème
       function createThemeButton() {
         const slot = document.getElementById('header-theme-slot');
         if (!slot) return;
