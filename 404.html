@@ -18,13 +18,10 @@
   <meta charset="UTF-8" />
   <title>404 – Page introuvable · Soazig Héaulme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ✅ Hint navigateur pour widgets (barres, champs…) quand l’utilisateur suit le thème -->
   <meta name="color-scheme" content="light dark" />
 
-
   <link rel="icon" type="image/png" href="images/autres/logo_favicon.png">
-  <link rel="stylesheet" href="style.css?v=20251222-404">
+  <link rel="stylesheet" href="style.css">
 
   <style>
     /* ✅ Page 404 centrée verticalement */
@@ -60,14 +57,6 @@
 
 <body>
 
-  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
-  <div id="global-loader" aria-hidden="true">
-    <div class="loader-inner">
-      <img src="images/autres/logo.png" alt="Chargement">
-      <div class="loader-line"></div>
-    </div>
-  </div>
-
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
   <!-- MENU -->
@@ -89,24 +78,19 @@
       <ul class="nav-main-list">
         <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
         <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
-        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
-        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
-        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
-        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
-        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
-        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
-        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acheter</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Évènements</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">En ce moment</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Biographie</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Médias</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Me joindre</span></a></li>
       </ul>
-    </div>
 
-    <div class="nav-footer">
-      <div>
-        © 2025 · Soazig Héaulme<br>
-        Galerie en ligne · Paris
-      </div>
-      <div class="nav-social">
-        <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
-        <a href="/cdn-cgi/l/email-protection#6b18040a11020c030e0a1e07060e2b0c060a020745080406">@</a>
+      <div class="nav-footer">
+        <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 0 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+        </a>
       </div>
     </div>
   </nav>
@@ -116,7 +100,7 @@
     <!-- HEADER -->
     <header class="site-header">
       <div class="header-inner">
-        <a href="index.html" class="brand" aria-label="Retour à l’accueil">
+        <a href="index.html" class="brand" aria-label="Retour à l'accueil">
           <img class="site-logo" src="images/autres/logo.png" alt="Logo Soazig Héaulme">
         </a>
 
@@ -134,17 +118,17 @@
         <div class="page-hero-title">404</div>
         <div class="page-hero-meta">
           <span>Page introuvable</span>
-          <span>Cette page n’existe pas ou plus</span>
+          <span>Cette page n'existe pas ou plus</span>
         </div>
       </section>
 
       <p class="page-404-text">
-        La page que vous cherchez n’a pas été trouvée.
+        La page que vous cherchez n'a pas été trouvée.
         Elle a peut-être été déplacée, renommée ou supprimée.
       </p>
 
       <div class="page-404-actions">
-        <a href="index.html" class="btn btn-primary">Retour à l’accueil</a>
+        <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
       </div>
     </main>
 
@@ -164,5 +148,47 @@
 
   </div>
 
-  <!-- SCRIPT GLOBAL -->
-  <script data-cfas
+  <!-- SCRIPT SIMPLE POUR LE BOUTON THEME -->
+  <script>
+    (function() {
+      'use strict';
+      const THEME_KEY = 'soazig_theme';
+      
+      function createThemeButton() {
+        const slot = document.getElementById('header-theme-slot');
+        if (!slot) return;
+        
+        const btn = document.createElement('button');
+        btn.className = 'theme-toggle';
+        btn.setAttribute('aria-label', 'Changer le thème');
+        btn.innerHTML = `
+          <svg class="theme-icon theme-icon-light" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/>
+          </svg>
+          <svg class="theme-icon theme-icon-dark" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/>
+          </svg>
+        `;
+        
+        btn.addEventListener('click', function() {
+          const current = document.documentElement.getAttribute('data-theme') || 'light';
+          const next = current === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem(THEME_KEY, next);
+          } catch(e) {}
+        });
+        
+        slot.appendChild(btn);
+      }
+      
+      // Attendre que le DOM soit prêt
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', createThemeButton);
+      } else {
+        createThemeButton();
+      }
+    })();
+  </script>
+</body>
+</html>
