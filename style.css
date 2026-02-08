@@ -359,6 +359,30 @@ a { color: inherit; text-decoration: none; }
   opacity: .78;
 }
 
+/* ✅ Afficher/masquer les icônes selon le thème */
+.theme-icon {
+  display: block;
+  position: absolute;
+}
+
+/* Mode clair : afficher la lune (pour passer en sombre) */
+html[data-theme="light"] .theme-icon-dark {
+  display: block;
+}
+
+html[data-theme="light"] .theme-icon-light {
+  display: none;
+}
+
+/* Mode sombre : afficher le soleil (pour passer en clair) */
+html[data-theme="dark"] .theme-icon-light {
+  display: block;
+}
+
+html[data-theme="dark"] .theme-icon-dark {
+  display: none;
+}
+
 .theme-toggle svg{ width: 18px; height: 18px; display:block; }
 
 /* HEADER */
