@@ -919,6 +919,90 @@ html[data-theme="dark"] .theme-icon-light {
 }
 .art-more:hover{ opacity: .85; }
 
+/* =========================================================
+   CARROUSEL ŒUVRES PHARES
+   ========================================================= */
+.phares-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -1.6rem;
+  padding: 0 1.6rem;
+}
+
+.phares-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.phares-carousel-item {
+  flex: 0 0 calc(33.333% - 1rem);
+  min-width: 0;
+}
+
+.phares-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  z-index: 10;
+}
+
+.phares-carousel-btn:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: var(--shadow-float);
+}
+
+.phares-carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.phares-carousel-prev {
+  left: 0;
+}
+
+.phares-carousel-next {
+  right: 0;
+}
+
+@media (max-width: 900px) {
+  .phares-carousel-item {
+    flex: 0 0 calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .phares-carousel-wrapper {
+    margin: 0 -1.2rem;
+    padding: 0 1.2rem;
+  }
+  
+  .phares-carousel-track {
+    gap: 1.2rem;
+  }
+  
+  .phares-carousel-item {
+    flex: 0 0 100%;
+  }
+  
+  .phares-carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /* FICHE ŒUVRE (modal "Voir plus") */
 .art-sheet-overlay{
   position: fixed;
