@@ -920,31 +920,14 @@ html[data-theme="dark"] .theme-icon-light {
 .art-more:hover{ opacity: .85; }
 
 /* =========================================================
-   CARROUSEL ŒUVRES PHARES - GRANDES CARTES
+   CARROUSEL ŒUVRES PHARES
    ========================================================= */
 .phares-carousel-wrapper {
   position: relative;
   width: 100%;
-  overflow: hidden;
 }
 
-.phares-carousel-container {
-  overflow: visible;
-  width: 100%;
-}
-
-.phares-carousel-track {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  transition: transform 0.5s ease;
-}
-
-/* Les cartes gardent leur style normal */
-.phares-carousel-item {
-  /* Hérite des styles .art-card */
-}
-
+/* Les flèches du carrousel */
 .phares-carousel-btn {
   position: absolute;
   top: 50%;
@@ -994,10 +977,6 @@ html[data-theme="dark"] .theme-icon-light {
 }
 
 @media (max-width: 640px) {
-  .phares-carousel-track {
-    gap: 1.2rem;
-  }
-  
   .phares-carousel-btn {
     width: 40px;
     height: 40px;
