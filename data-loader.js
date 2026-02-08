@@ -633,31 +633,50 @@ function renderOeuvreALaUne(o) {
 }
 
 function renderOeuvresPhares(list) {
-  const cards = document.querySelectorAll("#oeuvres-phares .art-card");
+  const container = document.getElementById("oeuvres-phares");
+  if (!container) return;
 
-  list.slice(0, cards.length).forEach((o, i) => {
-    const card = cards[i];
-    const thumb = card.querySelector(".art-thumb");
-    const body = card.querySelector(".art-body");
+  // Filtrer pour avoir seulement les œuvres avec accueil="PHARE"
+  const pharesOnly = list.filter(o => {
+    const acc = (o.accueil || "").toString().toUpperCase();
+    return acc === "PHARE";
+  });
+  
+  if (pharesOnly.length === 0) return;
 
-    if (!thumb || !body) return;
-
-    thumb.innerHTML = "";
-    body.innerHTML = "";
-
+  // Créer la structure du carrousel
+  container.innerHTML = "";
+  
+  // Wrapper pour le carrousel
+  const carouselWrapper = document.createElement("div");
+  carouselWrapper.className = "phares-carousel-wrapper";
+  
+  // Track (conteneur des cartes)
+  const track = document.createElement("div");
+  track.className = "phares-carousel-track";
+  
+  // Créer toutes les cartes
+  pharesOnly.forEach((o) => {
+    const card = document.createElement("div");
+    card.className = "art-card phares-carousel-item";
+    
+    const thumb = document.createElement("div");
+    thumb.className = "art-thumb";
+    
     const img = document.createElement("img");
     img.src = driveToImageUrl(o.image);
     img.alt = o.title || "";
     img.classList.add("js-zoomable");
     thumb.appendChild(img);
-
+    
+    const body = document.createElement("div");
+    body.className = "art-body";
+    
     const st = getArtStatus(o.statut);
-
     const fullDesc = getArtDescription(o);
     const { short, isLong } = truncateText(fullDesc, 170);
-
     const oeuvreJson = escapeHtml(JSON.stringify(o));
-
+    
     body.innerHTML = `
       ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
       
@@ -670,7 +689,69 @@ function renderOeuvresPhares(list) {
       ${short ? `<div class="art-desc">${escapeHtml(short)}</div>` : ""}
       ${isLong ? `<button class="art-more" type="button" data-oeuvre="${oeuvreJson}">Voir plus</button>` : ""}
     `;
+    
+    card.appendChild(thumb);
+    card.appendChild(body);
+    track.appendChild(card);
   });
+  
+  carouselWrapper.appendChild(track);
+  
+  // Ajouter les boutons de navigation si plus de 3 œuvres
+  if (pharesOnly.length > 3) {
+    const prevBtn = document.createElement("button");
+    prevBtn.className = "phares-carousel-btn phares-carousel-prev";
+    prevBtn.setAttribute("aria-label", "Œuvres précédentes");
+    prevBtn.innerHTML = `
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    `;
+    
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "phares-carousel-btn phares-carousel-next";
+    nextBtn.setAttribute("aria-label", "Œuvres suivantes");
+    nextBtn.innerHTML = `
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    `;
+    
+    carouselWrapper.appendChild(prevBtn);
+    carouselWrapper.appendChild(nextBtn);
+    
+    // Logique de navigation
+    let currentIndex = 0;
+    const itemsPerPage = 3;
+    const maxIndex = Math.max(0, pharesOnly.length - itemsPerPage);
+    
+    function updateCarousel() {
+      const offset = -(currentIndex * (100 / itemsPerPage));
+      track.style.transform = `translateX(${offset}%)`;
+      
+      // Désactiver les boutons aux extrémités
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= maxIndex;
+    }
+    
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    });
+    
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < maxIndex) {
+        currentIndex++;
+        updateCarousel();
+      }
+    });
+    
+    updateCarousel();
+  }
+  
+  container.appendChild(carouselWrapper);
 }
 
 // ----------------------------------------------------
