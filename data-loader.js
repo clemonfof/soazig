@@ -647,11 +647,15 @@ function renderOeuvresPhares(list) {
   // Créer la structure du carrousel
   container.innerHTML = "";
   
-  // Wrapper pour le carrousel
+  // Wrapper pour le carrousel avec overflow
   const carouselWrapper = document.createElement("div");
   carouselWrapper.className = "phares-carousel-wrapper";
   
-  // Track (conteneur des cartes)
+  // Container avec overflow hidden
+  const carouselContainer = document.createElement("div");
+  carouselContainer.className = "phares-carousel-container";
+  
+  // Track (conteneur des cartes qui défile)
   const track = document.createElement("div");
   track.className = "phares-carousel-track";
   
@@ -695,10 +699,11 @@ function renderOeuvresPhares(list) {
     track.appendChild(card);
   });
   
-  carouselWrapper.appendChild(track);
+  carouselContainer.appendChild(track);
+  carouselWrapper.appendChild(carouselContainer);
   
-  // Ajouter les boutons de navigation si plus de 3 œuvres
-  if (pharesOnly.length > 3) {
+  // Ajouter les boutons de navigation si plus de 4 œuvres
+  if (pharesOnly.length > 4) {
     const prevBtn = document.createElement("button");
     prevBtn.className = "phares-carousel-btn phares-carousel-prev";
     prevBtn.setAttribute("aria-label", "Œuvres précédentes");
@@ -720,35 +725,44 @@ function renderOeuvresPhares(list) {
     carouselWrapper.appendChild(prevBtn);
     carouselWrapper.appendChild(nextBtn);
     
-    // Logique de navigation
-    let currentIndex = 0;
-    const itemsPerPage = 3;
-    const maxIndex = Math.max(0, pharesOnly.length - itemsPerPage);
+    // Logique de défilement
+    let currentScroll = 0;
     
-    function updateCarousel() {
-      const offset = -(currentIndex * (100 / itemsPerPage));
-      track.style.transform = `translateX(${offset}%)`;
-      
-      // Désactiver les boutons aux extrémités
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex >= maxIndex;
+    // Calculer la largeur d'une carte + gap
+    function getScrollAmount() {
+      const card = track.querySelector('.phares-carousel-item');
+      if (!card) return 0;
+      const cardWidth = card.offsetWidth;
+      const gap = parseFloat(getComputedStyle(track).gap) || 24;
+      return cardWidth + gap;
+    }
+    
+    function updateButtons() {
+      const maxScroll = track.scrollWidth - carouselContainer.offsetWidth;
+      prevBtn.disabled = currentScroll <= 0;
+      nextBtn.disabled = currentScroll >= maxScroll;
     }
     
     prevBtn.addEventListener("click", () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-      }
+      const scrollAmount = getScrollAmount();
+      currentScroll = Math.max(0, currentScroll - scrollAmount);
+      track.style.transform = `translateX(-${currentScroll}px)`;
+      updateButtons();
     });
     
     nextBtn.addEventListener("click", () => {
-      if (currentIndex < maxIndex) {
-        currentIndex++;
-        updateCarousel();
-      }
+      const scrollAmount = getScrollAmount();
+      const maxScroll = track.scrollWidth - carouselContainer.offsetWidth;
+      currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
+      track.style.transform = `translateX(-${currentScroll}px)`;
+      updateButtons();
     });
     
-    updateCarousel();
+    // Initial state
+    updateButtons();
+    
+    // Recalculer au resize
+    window.addEventListener('resize', updateButtons);
   }
   
   container.appendChild(carouselWrapper);
