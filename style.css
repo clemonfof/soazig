@@ -920,27 +920,29 @@ html[data-theme="dark"] .theme-icon-light {
 .art-more:hover{ opacity: .85; }
 
 /* =========================================================
-   CARROUSEL ŒUVRES PHARES - 4 VISIBLES
+   CARROUSEL ŒUVRES PHARES - GRANDES CARTES
    ========================================================= */
 .phares-carousel-wrapper {
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
 .phares-carousel-container {
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
 }
 
 .phares-carousel-track {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   transition: transform 0.5s ease;
 }
 
+/* Les cartes gardent leur style normal */
 .phares-carousel-item {
-  flex: 0 0 calc(25% - 1.125rem); /* 4 cartes : 25% - (gap × 3) / 4 */
-  min-width: 0;
+  /* Hérite des styles .art-card */
 }
 
 .phares-carousel-btn {
@@ -991,25 +993,9 @@ html[data-theme="dark"] .theme-icon-light {
   }
 }
 
-@media (max-width: 1100px) {
-  .phares-carousel-item {
-    flex: 0 0 calc(33.333% - 1rem); /* 3 cartes */
-  }
-}
-
-@media (max-width: 900px) {
-  .phares-carousel-item {
-    flex: 0 0 calc(50% - 0.75rem); /* 2 cartes */
-  }
-}
-
 @media (max-width: 640px) {
   .phares-carousel-track {
     gap: 1.2rem;
-  }
-  
-  .phares-carousel-item {
-    flex: 0 0 100%; /* 1 carte */
   }
   
   .phares-carousel-btn {
