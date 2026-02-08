@@ -14,28 +14,11 @@
 console.log("BUILD:", window.__BUILD__);
 
 // =========================
-// LANGUE (FR / EN)
+// LANGUE (FR / EN) - Utilise les fonctions de translations.js
 // =========================
 
-const LANG_STORAGE_KEY = "soazig_lang";
-let currentLang = localStorage.getItem(LANG_STORAGE_KEY) || 'fr';
-
 function getCurrentLang() {
-  return currentLang;
-}
-
-function setLanguage(lang) {
-  if (lang !== 'fr' && lang !== 'en') return;
-  currentLang = lang;
-  localStorage.setItem(LANG_STORAGE_KEY, lang);
-  
-  // Mettre à jour les textes statiques (via translations.js)
-  if (typeof updatePageTexts === 'function') {
-    updatePageTexts();
-  }
-  
-  // Recharger les données
-  reloadSheetData();
+  return currentLang || 'fr';
 }
 
 // Fonction pour recharger toutes les données
