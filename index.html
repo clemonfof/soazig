@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-title-i18n="home_title">
 <script>
 (function() {
   'use strict';
@@ -152,7 +152,7 @@
     }
 
     /* =========================
-       ✅ MENU FOOTER ACTIONS (IG/@ + THEME en bas à droite)
+       ✅ MENU FOOTER ACTIONS (IG/@ + LANGUE + THEME en bas à droite)
        -> identique concerts.html pour que le JS place le bouton partout
     ========================= */
     .nav-footer{ position: relative; }
@@ -171,6 +171,35 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
+    }
+
+    /* Boutons de langue */
+    .nav-lang {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .nav-lang a {
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      opacity: 0.6;
+      transition: opacity 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-lang a:hover {
+      opacity: 1;
+      background: var(--surface-ink);
+    }
+
+    .nav-lang a.active {
+      opacity: 1;
+      background: var(--accent);
+      color: var(--text-main);
     }
 
     #nav-theme-slot{
@@ -198,15 +227,11 @@
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
   <!-- MENU OVERLAY -->
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Menu principal">
     <div class="nav-top-block">
       <div class="nav-top-row">
         <div class="nav-top-left">
-          <div class="nav-label">Menu principal</div>
-          <div class="nav-lang">
-            <a href="index.html" class="active">FR</a>
-            <a href="en/index.html">EN</a>
-          </div>
+          <div class="nav-label" data-i18n="nav_label">Menu principal</div>
         </div>
 
         <label for="nav-toggle" class="menu-toggle-label nav-top-toggle" aria-label="Fermer le menu">
@@ -215,29 +240,82 @@
       </div>
 
       <ul class="nav-main-list">
-        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
-        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
-        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
-        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
-        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
-        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
-        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
-        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
-        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+        <li>
+          <a class="nav-main-link" href="index.html">
+            <span data-i18n="nav_accueil">Accueil</span>
+            <span class="meta" data-i18n="nav_accueil_meta">Présentation</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="galerie.html">
+            <span data-i18n="nav_galerie">Galerie</span>
+            <span class="meta" data-i18n="nav_galerie_meta">Œuvres</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="disponibles.html">
+            <span data-i18n="nav_disponibles">Disponibles</span>
+            <span class="meta" data-i18n="nav_disponibles_meta">Acquisitions</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="expositions.html">
+            <span data-i18n="nav_expositions">Expositions</span>
+            <span class="meta" data-i18n="nav_expositions_meta">Calendrier</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="concerts.html">
+            <span data-i18n="nav_concerts">Concerts</span>
+            <span class="meta" data-i18n="nav_concerts_meta">Agenda Lyrique</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="actualites.html">
+            <span data-i18n="nav_actualites">Actualités</span>
+            <span class="meta" data-i18n="nav_actualites_meta">Nouvelles</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="apropos.html">
+            <span data-i18n="nav_apropos">À propos</span>
+            <span class="meta" data-i18n="nav_apropos_meta">Démarche</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="presse.html">
+            <span data-i18n="nav_presse">Presse</span>
+            <span class="meta" data-i18n="nav_presse_meta">Sélection</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-main-link" href="contact.html">
+            <span data-i18n="nav_contact">Contact</span>
+            <span class="meta" data-i18n="nav_contact_meta">Professionnels</span>
+          </a>
+        </li>
       </ul>
     </div>
 
     <div class="nav-footer">
       <div>
-        © 2025 · Soazig Héaulme<br />Galerie en ligne · Paris
+        <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+        <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
       </div>
 
-      <!-- ✅ ICI: actions en bas à droite (IG/@ à gauche, thème à droite) -->
+      <!-- ✅ ICI: actions en bas à droite (IG/@ + LANGUE + thème) -->
       <div class="nav-footer-actions">
         <div class="nav-social">
           <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
           <a href="mailto:soazigheaulme@gmail.com">@</a>
         </div>
+        
+        <!-- Boutons de langue -->
+        <div class="nav-lang">
+          <a href="#" onclick="setLanguage('fr'); return false;" data-i18n="lang_fr">FR</a>
+          <a href="#" onclick="setLanguage('en'); return false;" data-i18n="lang_en">EN</a>
+        </div>
+        
         <div id="nav-theme-slot"></div>
       </div>
     </div>
@@ -246,7 +324,7 @@
   <div class="page">
     <header class="site-header">
       <div class="header-inner">
-        <a href="index.html" class="brand" aria-label="Retour à l’accueil">
+        <a href="index.html" class="brand" aria-label="Retour à l'accueil">
           <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
           <img class="site-logo"
                src="images/autres/logo.png"
@@ -266,17 +344,15 @@
     <div class="page-inner">
       <section class="hero-home">
         <div>
-          <div class="section-kicker">Galerie en ligne</div>
-          <h1 class="hero-title">Soazig Héaulme</h1>
+          <div class="section-kicker" data-i18n="home_kicker">Galerie en ligne</div>
+          <h1 class="hero-title" data-i18n="home_title">Soazig Héaulme</h1>
 
-          <p class="hero-subline" style="white-space:pre-line;">
-ARTISTE PEINTRE, CHANTEUSE LYRIQUE.
-Comme un trait continu, l’expression artistique a toujours été une respiration, qui s’est imposée au fil du temps comme projet de vie.
-          </p>
+          <p class="hero-subline" style="white-space:pre-line;" data-i18n="home_subtitle">ARTISTE PEINTRE, CHANTEUSE LYRIQUE.
+Comme un trait continu, l'expression artistique a toujours été une respiration, qui s'est imposée au fil du temps comme projet de vie.</p>
 
           <div class="hero-actions">
-            <a href="galerie.html" class="btn btn-primary">Découvrir la galerie</a>
-            <a href="apropos.html" class="btn btn-ghost">À propos</a>
+            <a href="galerie.html" class="btn btn-primary" data-i18n="home_cta_galerie">Découvrir la galerie</a>
+            <a href="apropos.html" class="btn btn-ghost" data-i18n="home_cta_apropos">À propos</a>
           </div>
         </div>
 
@@ -286,7 +362,7 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
           </div>
 
           <div class="hero-oeuvre-infos">
-            <div class="hero-oeuvre-kicker">Œuvre à la une</div>
+            <div class="hero-oeuvre-kicker" data-i18n="home_oeuvre_une">Œuvre à la une</div>
             <div class="hero-art-caption-title" id="hero-main-title"></div>
             <div class="hero-art-caption-meta" id="hero-main-meta"></div>
           </div>
@@ -294,8 +370,8 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
       </section>
 
       <section style="margin-top:4rem;">
-        <div class="section-kicker">Sélection</div>
-        <h2 class="section-title">Œuvres phares</h2>
+        <div class="section-kicker" data-i18n="phares_kicker">Sélection</div>
+        <h2 class="section-title" data-i18n="phares_title">Œuvres phares</h2>
 
         <div class="gallery-grid" id="oeuvres-phares">
           <div class="art-card">
@@ -314,15 +390,15 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
       </section>
 
       <section style="margin-top:4rem;" id="actus-home">
-        <div class="section-kicker">Actualités</div>
-        <h2 class="section-title">En ce moment</h2>
+        <div class="section-kicker" data-i18n="actus_kicker">Actualités</div>
+        <h2 class="section-title" data-i18n="actus_title">En ce moment</h2>
 
         <div class="card-grid-3">
           <a href="expositions.html" class="card" id="card-expo" style="display:block;">
             <div class="card-thumb" id="expo-thumb-wrap" style="display:none;">
               <img id="expo-thumb" alt="Exposition" loading="lazy" />
             </div>
-            <div class="card-kicker">Exposition</div>
+            <div class="card-kicker" data-i18n="actus_exposition">Exposition</div>
             <div class="card-title"></div>
             <div class="card-text"></div>
           </a>
@@ -331,7 +407,7 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
             <div class="card-thumb" id="concert-thumb-wrap" style="display:none;">
               <img id="concert-thumb" alt="Concert" loading="lazy" />
             </div>
-            <div class="card-kicker">Concert</div>
+            <div class="card-kicker" data-i18n="actus_concert">Concert</div>
             <div class="card-title"></div>
             <div class="card-text"></div>
           </a>
@@ -340,7 +416,7 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
             <div class="card-thumb" id="nouvelle-thumb-wrap" style="display:none;">
               <img id="nouvelle-thumb" alt="Œuvre" loading="lazy" class="js-zoomable" />
             </div>
-            <div class="card-kicker">Œuvre</div>
+            <div class="card-kicker" data-i18n="actus_nouvelle">Œuvre</div>
             <div class="card-title">Nouvelle création</div>
             <div class="card-text">Disponible prochainement</div>
           </a>
@@ -348,7 +424,7 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
 
         <div class="actualites-more">
           <a href="actualites.html" class="actualites-more-link">
-            <span>Voir plus</span>
+            <span data-i18n="lire_plus">Voir plus</span>
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h14M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5"
                     stroke-linecap="round" stroke-linejoin="round" />
@@ -360,10 +436,13 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <div>© 2025 · Soazig Héaulme<br />Galerie en ligne · Paris</div>
+        <div>
+          <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+          <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
+        </div>
         <div class="footer-links">
-          <a href="mentions-legales.html">Mentions légales</a>
-          <a href="confidentialite.html">Confidentialité</a>
+          <a href="mentions-legales.html" data-i18n="footer_mentions">Mentions légales</a>
+          <a href="confidentialite.html" data-i18n="footer_confidentialite">Confidentialité</a>
         </div>
       </div>
     </footer>
@@ -378,10 +457,11 @@ Comme un trait continu, l’expression artistique a toujours été une respirati
   </div>
 
   <!-- ✅ Le JS crée déjà cette fiche dynamiquement.
-       Donc on SUPPRIME le doublon HTML pour éviter conflits d’ID / events.
+       Donc on SUPPRIME le doublon HTML pour éviter conflits d'ID / events.
        (Si tu veux absolument la garder en dur, dis-le et je te donne la version "idempotente".) -->
 
-  <!-- JS (cache-bust) -->
+  <!-- JS - ORDRE IMPORTANT : translations.js AVANT data-loader.js -->
+  <script src="translations.js" defer></script>
   <script src="data-loader.js?v=20251224-index-theme-slot" defer></script>
 </body>
 </html>
