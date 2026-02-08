@@ -644,25 +644,67 @@ function renderOeuvresPhares(list) {
   
   if (pharesOnly.length === 0) return;
 
-  // Créer la structure du carrousel
-  container.innerHTML = "";
+  // Si 4 œuvres ou moins, afficher normalement sans carrousel
+  if (pharesOnly.length <= 4) {
+    container.innerHTML = "";
+    container.className = "gallery-grid";
+    
+    pharesOnly.forEach((o) => {
+      const card = document.createElement("div");
+      card.className = "art-card";
+      
+      const thumb = document.createElement("div");
+      thumb.className = "art-thumb";
+      
+      const img = document.createElement("img");
+      img.src = driveToImageUrl(o.image);
+      img.alt = o.title || "";
+      img.classList.add("js-zoomable");
+      thumb.appendChild(img);
+      
+      const body = document.createElement("div");
+      body.className = "art-body";
+      
+      const st = getArtStatus(o.statut);
+      const fullDesc = getArtDescription(o);
+      const { short, isLong } = truncateText(fullDesc, 170);
+      const oeuvreJson = escapeHtml(JSON.stringify(o));
+      
+      body.innerHTML = `
+        ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
+        
+        <div class="art-title">${escapeHtml(o.title || "")}</div>
+
+        <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
+        <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
+        <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
+
+        ${short ? `<div class="art-desc">${escapeHtml(short)}</div>` : ""}
+        ${isLong ? `<button class="art-more" type="button" data-oeuvre="${oeuvreJson}">Voir plus</button>` : ""}
+      `;
+      
+      card.appendChild(thumb);
+      card.appendChild(body);
+      container.appendChild(card);
+    });
+    
+    return;
+  }
   
-  // Wrapper pour le carrousel avec overflow
+  // Si plus de 4 œuvres, créer le carrousel
+  container.innerHTML = "";
+  container.className = "";
+  
   const carouselWrapper = document.createElement("div");
   carouselWrapper.className = "phares-carousel-wrapper";
   
-  // Container avec overflow hidden
-  const carouselContainer = document.createElement("div");
-  carouselContainer.className = "phares-carousel-container";
-  
-  // Track (conteneur des cartes qui défile)
   const track = document.createElement("div");
-  track.className = "phares-carousel-track";
+  track.className = "gallery-grid";
   
   // Créer toutes les cartes
   pharesOnly.forEach((o) => {
     const card = document.createElement("div");
-    card.className = "art-card phares-carousel-item";
+    card.className = "art-card";
     
     const thumb = document.createElement("div");
     thumb.className = "art-thumb";
@@ -699,72 +741,68 @@ function renderOeuvresPhares(list) {
     track.appendChild(card);
   });
   
-  carouselContainer.appendChild(track);
-  carouselWrapper.appendChild(carouselContainer);
+  carouselWrapper.appendChild(track);
   
-  // Ajouter les boutons de navigation si plus de 4 œuvres
-  if (pharesOnly.length > 4) {
-    const prevBtn = document.createElement("button");
-    prevBtn.className = "phares-carousel-btn phares-carousel-prev";
-    prevBtn.setAttribute("aria-label", "Œuvres précédentes");
-    prevBtn.innerHTML = `
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    `;
+  // Ajouter les boutons de navigation
+  const prevBtn = document.createElement("button");
+  prevBtn.className = "phares-carousel-btn phares-carousel-prev";
+  prevBtn.setAttribute("aria-label", "Œuvres précédentes");
+  prevBtn.innerHTML = `
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  `;
+  
+  const nextBtn = document.createElement("button");
+  nextBtn.className = "phares-carousel-btn phares-carousel-next";
+  nextBtn.setAttribute("aria-label", "Œuvres suivantes");
+  nextBtn.innerHTML = `
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  `;
+  
+  carouselWrapper.appendChild(prevBtn);
+  carouselWrapper.appendChild(nextBtn);
+  
+  // Logique de pagination par groupes de 4
+  let currentPage = 0;
+  const itemsPerPage = 4;
+  const allCards = Array.from(track.querySelectorAll('.art-card'));
+  const totalPages = Math.ceil(pharesOnly.length / itemsPerPage);
+  
+  function updateCarousel() {
+    // Cacher toutes les cartes
+    allCards.forEach(card => card.style.display = 'none');
     
-    const nextBtn = document.createElement("button");
-    nextBtn.className = "phares-carousel-btn phares-carousel-next";
-    nextBtn.setAttribute("aria-label", "Œuvres suivantes");
-    nextBtn.innerHTML = `
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    `;
+    // Afficher les 4 cartes de la page actuelle
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, allCards.length);
     
-    carouselWrapper.appendChild(prevBtn);
-    carouselWrapper.appendChild(nextBtn);
-    
-    // Logique de défilement
-    let currentScroll = 0;
-    
-    // Calculer la largeur d'une carte + gap
-    function getScrollAmount() {
-      const card = track.querySelector('.phares-carousel-item');
-      if (!card) return 0;
-      const cardWidth = card.offsetWidth;
-      const gap = parseFloat(getComputedStyle(track).gap) || 24;
-      return cardWidth + gap;
+    for (let i = startIndex; i < endIndex; i++) {
+      allCards[i].style.display = 'block';
     }
     
-    function updateButtons() {
-      const maxScroll = track.scrollWidth - carouselContainer.offsetWidth;
-      prevBtn.disabled = currentScroll <= 0;
-      nextBtn.disabled = currentScroll >= maxScroll;
-    }
-    
-    prevBtn.addEventListener("click", () => {
-      const scrollAmount = getScrollAmount();
-      currentScroll = Math.max(0, currentScroll - scrollAmount);
-      track.style.transform = `translateX(-${currentScroll}px)`;
-      updateButtons();
-    });
-    
-    nextBtn.addEventListener("click", () => {
-      const scrollAmount = getScrollAmount();
-      const maxScroll = track.scrollWidth - carouselContainer.offsetWidth;
-      currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
-      track.style.transform = `translateX(-${currentScroll}px)`;
-      updateButtons();
-    });
-    
-    // Initial state
-    updateButtons();
-    
-    // Recalculer au resize
-    window.addEventListener('resize', updateButtons);
+    // Désactiver les boutons aux extrémités
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = currentPage >= totalPages - 1;
   }
   
+  prevBtn.addEventListener("click", () => {
+    if (currentPage > 0) {
+      currentPage--;
+      updateCarousel();
+    }
+  });
+  
+  nextBtn.addEventListener("click", () => {
+    if (currentPage < totalPages - 1) {
+      currentPage++;
+      updateCarousel();
+    }
+  });
+  
+  updateCarousel();
   container.appendChild(carouselWrapper);
 }
 
