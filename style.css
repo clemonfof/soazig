@@ -365,21 +365,21 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
 }
 
-/* Mode clair : afficher la lune (pour passer en sombre) */
-html[data-theme="light"] .theme-icon-dark {
+/* Mode clair : afficher le soleil */
+html[data-theme="light"] .theme-icon-light {
   display: block;
 }
 
-html[data-theme="light"] .theme-icon-light {
+html[data-theme="light"] .theme-icon-dark {
   display: none;
 }
 
-/* Mode sombre : afficher le soleil (pour passer en clair) */
-html[data-theme="dark"] .theme-icon-light {
+/* Mode sombre : afficher la lune */
+html[data-theme="dark"] .theme-icon-dark {
   display: block;
 }
 
-html[data-theme="dark"] .theme-icon-dark {
+html[data-theme="dark"] .theme-icon-light {
   display: none;
 }
 
