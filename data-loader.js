@@ -14,6 +14,67 @@
 console.log("BUILD:", window.__BUILD__);
 
 // =========================
+// LANGUE (FR / EN)
+// =========================
+
+const LANG_STORAGE_KEY = "soazig_lang";
+let currentLang = localStorage.getItem(LANG_STORAGE_KEY) || 'fr';
+
+function getCurrentLang() {
+  return currentLang;
+}
+
+function setLanguage(lang) {
+  if (lang !== 'fr' && lang !== 'en') return;
+  currentLang = lang;
+  localStorage.setItem(LANG_STORAGE_KEY, lang);
+  
+  // Mettre à jour les textes statiques (via translations.js)
+  if (typeof updatePageTexts === 'function') {
+    updatePageTexts();
+  }
+  
+  // Recharger les données
+  reloadSheetData();
+}
+
+// Fonction pour recharger toutes les données
+function reloadSheetData() {
+  // Recharger selon la page actuelle
+  const path = window.location.pathname;
+  
+  if (path.includes('index.html') || path === '/' || path.endsWith('/')) {
+    // Page d'accueil
+    if (typeof loadHomeData === 'function') loadHomeData();
+  } else if (path.includes('galerie.html')) {
+    if (typeof loadGalerieData === 'function') loadGalerieData();
+  } else if (path.includes('disponibles.html')) {
+    if (typeof loadDisponiblesData === 'function') loadDisponiblesData();
+  } else if (path.includes('expositions.html')) {
+    if (typeof loadExpositionsData === 'function') loadExpositionsData();
+  } else if (path.includes('concerts.html')) {
+    if (typeof loadConcertsData === 'function') loadConcertsData();
+  } else if (path.includes('actualites.html')) {
+    if (typeof loadActualitesData === 'function') loadActualitesData();
+  } else if (path.includes('presse.html')) {
+    if (typeof loadPresseData === 'function') loadPresseData();
+  }
+}
+
+// Fonction helper pour obtenir la bonne propriété selon la langue
+function getLocalizedField(obj, fieldName) {
+  const lang = getCurrentLang();
+  
+  // Si on est en anglais et que le champ _en existe
+  if (lang === 'en' && obj[fieldName + '_en']) {
+    return obj[fieldName + '_en'];
+  }
+  
+  // Sinon retourner le champ français
+  return obj[fieldName] || '';
+}
+
+// =========================
 // THEME (LIGHT / DARK)
 // =========================
 
@@ -446,11 +507,24 @@ function getArtStatus(statutRaw) {
   const s = (statutRaw || "").toString().trim().toLowerCase();
   if (!s) return { text: "", cls: "" };
 
-  if (s === "disponible") return { text: "Disponible", cls: "art-status" };
-  return { text: "Indisponible", cls: "art-status art-status--unavailable" };
+  if (s === "disponible") {
+    const text = typeof t === 'function' ? t('oeuvre_disponible') : "Disponible";
+    return { text, cls: "art-status" };
+  }
+  if (s === "vendu") {
+    const text = typeof t === 'function' ? t('oeuvre_vendu') : "Vendu";
+    return { text, cls: "art-status art-status--unavailable" };
+  }
+  const text = typeof t === 'function' ? t('oeuvre_indisponible') : "Indisponible";
+  return { text, cls: "art-status art-status--unavailable" };
 }
 
 function getArtDescription(o) {
+  // Essayer d'abord la version traduite
+  const descEn = getLocalizedField(o, 'description');
+  if (descEn) return descEn;
+  
+  // Sinon chercher dans les autres champs possibles
   const candidates = [
     o.description,
     o.descriptif,
@@ -617,17 +691,18 @@ function renderOeuvreALaUne(o) {
   const imgEl = document.querySelector(".hero-art-image img");
   if (imgEl && o.image) {
     imgEl.src = driveToImageUrl(o.image);
-    imgEl.alt = o.title || "";
+    imgEl.alt = getLocalizedField(o, 'title') || "";
     imgEl.classList.add("js-zoomable");
   }
 
   const titleEl = document.getElementById("hero-main-title") || document.querySelector(".hero-art-caption-title");
   const metaEl = document.getElementById("hero-main-meta") || document.querySelector(".hero-art-caption-meta");
 
-  if (titleEl) titleEl.textContent = o.title || "";
+  if (titleEl) titleEl.textContent = getLocalizedField(o, 'title') || "";
 
   if (metaEl) {
-    const meta = [o.technique || "", o.dimensions || "", o.annee || ""].filter(Boolean).join(" · ");
+    const technique = getLocalizedField(o, 'technique') || "";
+    const meta = [technique, o.dimensions || "", o.annee || ""].filter(Boolean).join(" · ");
     metaEl.textContent = meta;
   }
 }
