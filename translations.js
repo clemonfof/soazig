@@ -100,6 +100,7 @@ const translations = {
     presse_subtitle: "Sélection",
     presse_kicker: "Articles",
     presse_selection: "Sélection Presse",
+    presse_lien: "Ouvrir l'article",
     
     // PAGE À PROPOS
     apropos_title: "À propos",
@@ -270,6 +271,7 @@ const translations = {
     presse_subtitle: "Selection",
     presse_kicker: "Articles",
     presse_selection: "Press selection",
+    presse_lien: "Open article",
     
     // PAGE À PROPOS
     apropos_title: "About",
@@ -385,6 +387,10 @@ function updatePageTexts() {
     else if (el.tagName === 'INPUT' && el.type === 'submit') {
       el.value = translation;
     }
+    // Si c'est une option de select
+    else if (el.tagName === 'OPTION') {
+      el.textContent = translation;
+    }
     // Sinon c'est du texte normal
     else {
       // Préserver les retours à la ligne
@@ -393,6 +399,20 @@ function updatePageTexts() {
       }
       el.textContent = translation;
     }
+  });
+  
+  // Mettre à jour les placeholders avec data-i18n-placeholder
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(key);
+  });
+  
+  // Gérer les contenus bilingues avec lang-fr et lang-en
+  document.querySelectorAll('[lang="fr"]').forEach(el => {
+    el.style.display = currentLang === 'fr' ? '' : 'none';
+  });
+  document.querySelectorAll('[lang="en"]').forEach(el => {
+    el.style.display = currentLang === 'en' ? '' : 'none';
   });
   
   // Mettre à jour le titre de la page si présent
