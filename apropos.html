@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-title-i18n="apropos_title">
 <script>
 (function() {
   'use strict';
@@ -18,7 +18,7 @@
   <meta charset="UTF-8" />
   <title>À propos – Soazig Héaulme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="color-scheme" content="light dark" />
 
   <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
   <link rel="stylesheet" href="style.css" />
@@ -26,8 +26,6 @@
   <style>
     /* =========================
        LIGHTBOX — DA friendly
-       - pas de noir pur
-       - s’appuie sur les tokens
     ========================= */
     .lightbox-overlay{
       position: fixed;
@@ -85,45 +83,84 @@
       background: var(--surface-ink);
     }
 
-    /* =========================
-       MENU FOOTER : IG à gauche, THEME à droite
-    ========================= */
-    .nav-footer-right{
+    /* Boutons de langue */
+    .nav-lang {
       display: flex;
+      gap: 0.5rem;
       align-items: center;
-      gap: 0.8rem;
     }
 
-    .nav-theme-slot{
-      display: flex;
+    .nav-lang a {
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      opacity: 0.6;
+      transition: opacity 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-lang a:hover {
+      opacity: 1;
+      background: var(--surface-ink);
+    }
+
+    .nav-lang a.active {
+      opacity: 1;
+      background: var(--accent);
+      color: var(--text-main);
+    }
+
+    .nav-footer {
+      position: relative;
+    }
+
+    .nav-footer-actions {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: inline-flex;
       align-items: center;
-      justify-content: flex-end;
-      min-width: 44px;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .nav-footer-actions .nav-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #nav-theme-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
+  <!-- ✅ GLOBAL LOADER -->
   <div id="global-loader" aria-hidden="true">
     <div class="loader-inner">
-      <img class="site-logo" src="images/autres/logo.png" alt="Chargement" />
+      <img class="site-logo" 
+           src="images/autres/logo.png"
+           data-logo-dark="images/autres/logo.png"
+           data-logo-light="images/autres/logo_clair.png"
+           alt="Chargement" />
       <div class="loader-line"></div>
     </div>
   </div>
 
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Menu principal">
     <div class="nav-top-block">
       <div class="nav-top-row">
         <div class="nav-top-left">
-          <div class="nav-label">Menu principal</div>
-          <div class="nav-lang">
-            <a href="index.html" class="active">FR</a>
-            <a href="en/index.html">EN</a>
-          </div>
+          <div class="nav-label" data-i18n="nav_label">Menu principal</div>
         </div>
         <label for="nav-toggle" class="menu-toggle-label nav-top-toggle">
           <span></span>
@@ -131,32 +168,38 @@
       </div>
 
       <ul class="nav-main-list">
-        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
-        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
-        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
-        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
-        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
-        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
-        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
-        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
-        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+        <li><a class="nav-main-link" href="index.html"><span data-i18n="nav_accueil">Accueil</span><span class="meta" data-i18n="nav_accueil_meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span data-i18n="nav_galerie">Galerie</span><span class="meta" data-i18n="nav_galerie_meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span data-i18n="nav_disponibles">Disponibles</span><span class="meta" data-i18n="nav_disponibles_meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span data-i18n="nav_expositions">Expositions</span><span class="meta" data-i18n="nav_expositions_meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span data-i18n="nav_concerts">Concerts</span><span class="meta" data-i18n="nav_concerts_meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span data-i18n="nav_actualites">Actualités</span><span class="meta" data-i18n="nav_actualites_meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span data-i18n="nav_apropos">À propos</span><span class="meta" data-i18n="nav_apropos_meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span data-i18n="nav_presse">Presse</span><span class="meta" data-i18n="nav_presse_meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span data-i18n="nav_contact">Contact</span><span class="meta" data-i18n="nav_contact_meta">Professionnels</span></a></li>
       </ul>
     </div>
 
     <div class="nav-footer">
       <div>
-        © 2025 · Soazig Héaulme<br />Galerie en ligne · Paris
+        <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+        <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
       </div>
 
-      <!-- ✅ IG / Mail à gauche, bouton thème à droite -->
-      <div class="nav-footer-right">
+      <!-- ✅ Actions en bas à droite -->
+      <div class="nav-footer-actions">
         <div class="nav-social">
           <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
           <a href="mailto:soazigheaulme@gmail.com">@</a>
         </div>
-
-        <!-- ✅ SLOT : data-loader.js injecte le bouton thème ici -->
-        <div class="nav-theme-slot" id="nav-theme-slot" aria-label="Changer le thème"></div>
+        
+        <!-- Boutons de langue -->
+        <div class="nav-lang">
+          <a href="#" onclick="setLanguage('fr'); return false;" data-i18n="lang_fr">FR</a>
+          <a href="#" onclick="setLanguage('en'); return false;" data-i18n="lang_en">EN</a>
+        </div>
+        
+        <div id="nav-theme-slot"></div>
       </div>
     </div>
   </nav>
@@ -166,7 +209,12 @@
     <header class="site-header">
       <div class="header-inner">
         <a href="index.html" class="brand">
-          <img class="site-logo" src="images/autres/logo.png" alt="Logo Soazig Héaulme" style="height:120px;width:auto;display:block;" />
+          <img class="site-logo" 
+               src="images/autres/logo.png"
+               data-logo-dark="images/autres/logo.png"
+               data-logo-light="images/autres/logo_clair.png"
+               alt="Logo Soazig Héaulme" 
+               style="height:120px;width:auto;display:block;" />
         </a>
         <label for="nav-toggle" class="menu-toggle-label">
           <span></span>
@@ -177,10 +225,10 @@
     <div class="page-inner">
 
       <section class="page-hero">
-        <div class="page-hero-title">À propos</div>
+        <div class="page-hero-title" data-i18n="apropos_title">À propos</div>
         <div class="page-hero-meta">
-          <span>Parcours artistique & lyrique</span>
-          <span>Peinture · Chant lyrique</span>
+          <span data-i18n="apropos_meta1">Parcours artistique & lyrique</span>
+          <span data-i18n="apropos_meta2">Peinture · Chant lyrique</span>
         </div>
       </section>
 
@@ -193,32 +241,32 @@
         <div class="about-text" style="white-space:pre-line;">
 
 ARTISTE PEINTRE, CHANTEUSE LYRIQUE.
-Comme un trait continu, l’expression artistique a toujours été une respiration, qui s’est imposée au fil du
+Comme un trait continu, l'expression artistique a toujours été une respiration, qui s'est imposée au fil du
 temps comme projet de vie.
-La peinture et le chant, les deux disciplines trouvent écho l’une à l’autre et me définissent aujourd’hui.
+La peinture et le chant, les deux disciplines trouvent écho l'une à l'autre et me définissent aujourd'hui.
 Bretonne accostée dans le sud de la france, peintre lyrique, ici ou ailleurs cela ne me quitte jamais, au
-bout de mes doigts l’océan pénétrant. Je me pose là, devant le ciel immense et cette mer vivante, aux
-frontières de l’abstrait, comme autant de notes sur une partition, retranscris la musique du paysage.
+bout de mes doigts l'océan pénétrant. Je me pose là, devant le ciel immense et cette mer vivante, aux
+frontières de l'abstrait, comme autant de notes sur une partition, retranscris la musique du paysage.
 
 PARCOURS
 
 • Formation artistique
-Apprentissage dans un atelier de peintres à Aix-en-Provence afin de préparer le concours d’entrée aux Beaux-Arts.
-Les Beaux-Arts d’Aix-en-Provence. Formation professionnelle au trompe-l’oeil et à la peinture décorative à l’école de Pantin.
+Apprentissage dans un atelier de peintres à Aix-en-Provence afin de préparer le concours d'entrée aux Beaux-Arts.
+Les Beaux-Arts d'Aix-en-Provence. Formation professionnelle au trompe-l'oeil et à la peinture décorative à l'école de Pantin.
 Formation au chant lyrique en cours particuliers avec Isabelle Cambrilat à Eguilles et Guy Lacayrerie à Marseille.
 
 • Parcours professionnel
-Animation d’ateliers de peinture en milieu hospitalier psychiatrique (CH Montperrin à Aix-en-Provence et Edouard Toulouse à Marseille)
+Animation d'ateliers de peinture en milieu hospitalier psychiatrique (CH Montperrin à Aix-en-Provence et Edouard Toulouse à Marseille)
 Coloriste dans le dessin animé à Paris (Astérix et Obélix, Studio Gaumont. Babar, Tintin, Black et Mortimer, Orson et Olivia, Studio Ellipse.
-Le Marsupilami, Studio Marathon). Animation d’ateliers de peinture à La Maison de Gardane. Secrétariat, logistique, livraison de paniers au magasin Ma Terre, 100% bio 100% local. Artiste peintre et chanteuse lyrique.
+Le Marsupilami, Studio Marathon). Animation d'ateliers de peinture à La Maison de Gardane. Secrétariat, logistique, livraison de paniers au magasin Ma Terre, 100% bio 100% local. Artiste peintre et chanteuse lyrique.
 
 • Les Expositions
-Salon de l’Agriculture 2002 en partenariat avec la galerie Courant d’Art Paris 3ème. Atelier collectif à Marseille. Divers salons de la
-nature dans les Bouches-du-Rhône (Trets, la Roque d’Anthéron, Bouc-Bel-Air ). Expositions collectives à la galerie d’art de l’ESDAC à
+Salon de l'Agriculture 2002 en partenariat avec la galerie Courant d'Art Paris 3ème. Atelier collectif à Marseille. Divers salons de la
+nature dans les Bouches-du-Rhône (Trets, la Roque d'Anthéron, Bouc-Bel-Air ). Expositions collectives à la galerie d'art de l'ESDAC à
 Aix-en-Provence. Expositions individuelles : La salle Mistral à Eguilles (13 ), Librairie Forum Harmonia Mundi à Aix-en-Provence, Ma Terre
 à Aix-en-Provence, La Clé des Champs à Ventabren, Le Château Revelette à Jouques, Studio Azoé Aix-en-Provence, La Porte Rouge
-Atelier Galerie à Plogoff, Le marché bio local et musical de Pont-Croix, Atelier de l’Image à Pont-Croix, La Méduse à Paris, expo-
-concert chez l’habitant à Eguilles, expo-concert La Fanfare Culture à Aix-en-Provence, Tableaux à emporter à « l’atelier de Soazig »
+Atelier Galerie à Plogoff, Le marché bio local et musical de Pont-Croix, Atelier de l'Image à Pont-Croix, La Méduse à Paris, expo-
+concert chez l'habitant à Eguilles, expo-concert La Fanfare Culture à Aix-en-Provence, Tableaux à emporter à « l'atelier de Soazig »
 exposition permanente à Aix-en-Provence.
 ••• Jalonné de nombreux concerts et récitals.
 
@@ -230,10 +278,13 @@ exposition permanente à Aix-en-Provence.
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <div>© 2025 · Soazig Héaulme<br />Galerie en ligne · Paris</div>
+        <div>
+          <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+          <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
+        </div>
         <div class="footer-links">
-          <a href="mentions-legales.html">Mentions légales</a>
-          <a href="confidentialite.html">Confidentialité</a>
+          <a href="mentions-legales.html" data-i18n="footer_mentions">Mentions légales</a>
+          <a href="confidentialite.html" data-i18n="footer_confidentialite">Confidentialité</a>
         </div>
       </div>
     </footer>
@@ -248,6 +299,8 @@ exposition permanente à Aix-en-Provence.
     </div>
   </div>
 
+  <!-- JS - ORDRE IMPORTANT : translations.js AVANT data-loader.js -->
+  <script src="translations.js" defer></script>
   <script src="data-loader.js" defer></script>
 </body>
 
