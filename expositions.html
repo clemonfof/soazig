@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-title-i18n="expositions_title">
 <script>
 (function() {
   'use strict';
@@ -17,20 +17,12 @@
   <meta charset="UTF-8" />
   <title>Expositions – Soazig Héaulme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ✅ pour que les composants (inputs/scrollbar) suivent clair/sombre -->
   <meta name="color-scheme" content="light dark" />
 
-
   <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
-  <link rel="stylesheet" href="style.css?v=20251224-expos-theme-slot-logo-auto" />
+  <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* =========================
-       LIGHTBOX — DA friendly
-       - pas de noir pur
-       - s’appuie sur les tokens
-    ========================= */
     .lightbox-overlay{
       position: fixed;
       inset: 0;
@@ -87,9 +79,6 @@
       background: var(--surface-ink);
     }
 
-    /* =========================
-       EXPOS — GRID 2 PROPRE (theme-friendly)
-    ========================= */
     .page-inner .section-title{
       font-size: clamp(1.3rem, 2.2vw, 1.6rem);
       letter-spacing: 0.14em;
@@ -192,41 +181,20 @@
       .event-list img.is-portrait{ max-height: 320px; }
     }
 
-    /* =========================
-       ✅ MENU FOOTER ACTIONS (IG/@ + THEME en bas à droite)
-       -> même pattern que concerts/disponibles
-    ========================= */
+    .nav-lang {display: flex;gap: 0.5rem;align-items: center;}
+    .nav-lang a {padding: 0.4rem 0.8rem;border-radius: 999px;font-size: 0.85rem;letter-spacing: 0.1em;font-weight: 500;opacity: 0.6;transition: opacity 0.2s ease, background 0.2s ease;cursor: pointer;}
+    .nav-lang a:hover {opacity: 1;background: var(--surface-ink);}
+    .nav-lang a.active {opacity: 1;background: var(--accent);color: var(--text-main);}
     .nav-footer{ position: relative; }
-
-    .nav-footer-actions{
-      position: absolute;
-      right: 18px;
-      bottom: 18px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 5;
-    }
-
-    .nav-footer-actions .nav-social{
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    #nav-theme-slot{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .nav-footer-actions{position: absolute;right: 18px;bottom: 18px;display: inline-flex;align-items: center;gap: 12px;z-index: 5;}
+    .nav-footer-actions .nav-social{display: inline-flex;align-items: center;gap: 10px;}
+    #nav-theme-slot{display: inline-flex;align-items: center;justify-content: center;}
   </style>
 </head>
 
 <body>
-  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
   <div id="global-loader" aria-hidden="true">
     <div class="loader-inner">
-      <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
       <img class="site-logo"
            src="images/autres/logo.png"
            data-logo-dark="images/autres/logo.png"
@@ -238,44 +206,45 @@
 
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Menu principal">
     <div class="nav-top-block">
       <div class="nav-top-row">
         <div class="nav-top-left">
-          <div class="nav-label">Menu principal</div>
-          <div class="nav-lang">
-            <a href="index.html" class="active">FR</a>
-            <a href="en/index.html">EN</a>
-          </div>
+          <div class="nav-label" data-i18n="nav_label">Menu principal</div>
         </div>
         <label for="nav-toggle" class="menu-toggle-label nav-top-toggle"><span></span></label>
       </div>
 
       <ul class="nav-main-list">
-        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
-        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
-        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
-        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
-        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
-        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
-        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
-        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
-        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+        <li><a class="nav-main-link" href="index.html"><span data-i18n="nav_accueil">Accueil</span><span class="meta" data-i18n="nav_accueil_meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span data-i18n="nav_galerie">Galerie</span><span class="meta" data-i18n="nav_galerie_meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span data-i18n="nav_disponibles">Disponibles</span><span class="meta" data-i18n="nav_disponibles_meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span data-i18n="nav_expositions">Expositions</span><span class="meta" data-i18n="nav_expositions_meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span data-i18n="nav_concerts">Concerts</span><span class="meta" data-i18n="nav_concerts_meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span data-i18n="nav_actualites">Actualités</span><span class="meta" data-i18n="nav_actualites_meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span data-i18n="nav_apropos">À propos</span><span class="meta" data-i18n="nav_apropos_meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span data-i18n="nav_presse">Presse</span><span class="meta" data-i18n="nav_presse_meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span data-i18n="nav_contact">Contact</span><span class="meta" data-i18n="nav_contact_meta">Professionnels</span></a></li>
       </ul>
     </div>
 
     <div class="nav-footer">
       <div>
-        © 2025 · L’atelier de Soazig<br />
-        Galerie en ligne · Aix-en-Provence
+        <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+        <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
       </div>
 
-      <!-- ✅ ICI: actions en bas à droite (IG/@ à gauche, thème à droite) -->
       <div class="nav-footer-actions">
         <div class="nav-social">
           <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
           <a href="mailto:soazigheaulme@gmail.com">@</a>
         </div>
+        
+        <div class="nav-lang">
+          <a href="#" onclick="setLanguage('fr'); return false;" data-i18n="lang_fr">FR</a>
+          <a href="#" onclick="setLanguage('en'); return false;" data-i18n="lang_en">EN</a>
+        </div>
+        
         <div id="nav-theme-slot"></div>
       </div>
     </div>
@@ -285,7 +254,6 @@
     <header class="site-header">
       <div class="header-inner">
         <a href="index.html" class="brand">
-          <!-- ✅ AUTO LOGO THEME (clair/sombre) -->
           <img class="site-logo"
                src="images/autres/logo.png"
                data-logo-dark="images/autres/logo.png"
@@ -299,24 +267,24 @@
 
     <div class="page-inner">
       <section class="page-hero">
-        <div class="page-hero-title">Expositions</div>
+        <div class="page-hero-title" data-i18n="expositions_title">Expositions</div>
       </section>
 
       <section style="margin-bottom:3rem;">
-        <div class="section-kicker">En ce moment</div>
-        <h2 class="section-title">En cours</h2>
+        <div class="section-kicker" data-i18n="expositions_kicker_encours">En ce moment</div>
+        <h2 class="section-title" data-i18n="expositions_encours">En cours</h2>
         <ul id="expos-encours" class="event-list"></ul>
       </section>
 
       <section style="margin-bottom:3rem;">
-        <div class="section-kicker">Agenda</div>
-        <h2 class="section-title">À venir</h2>
+        <div class="section-kicker" data-i18n="expositions_kicker_avenir">Agenda</div>
+        <h2 class="section-title" data-i18n="expositions_avenir">À venir</h2>
         <ul id="expos-avenir" class="event-list"></ul>
       </section>
 
       <section>
-        <div class="section-kicker">Archives</div>
-        <h2 class="section-title">Passées</h2>
+        <div class="section-kicker" data-i18n="expositions_kicker_passees">Archives</div>
+        <h2 class="section-title" data-i18n="expositions_passees">Passées</h2>
         <ul id="expos-passees" class="event-list"></ul>
       </section>
     </div>
@@ -324,18 +292,17 @@
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
-          © 2025 · L’atelier de Soazig<br />
-          Galerie en ligne · Aix-en-Provence
+          <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+          <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
         </div>
         <div class="footer-links">
-          <a href="mentions-legales.html">Mentions légales</a>
-          <a href="confidentialite.html">Confidentialité</a>
+          <a href="mentions-legales.html" data-i18n="footer_mentions">Mentions légales</a>
+          <a href="confidentialite.html" data-i18n="footer_confidentialite">Confidentialité</a>
         </div>
       </div>
     </footer>
   </div>
 
-  <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="art-lightbox" aria-hidden="true">
     <div class="lightbox-inner">
       <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
@@ -343,9 +310,9 @@
     </div>
   </div>
 
-  <script src="data-loader.js?v=20251224-expos-theme-slot-logo-auto" defer></script>
+  <script src="translations.js" defer></script>
+  <script src="data-loader.js" defer></script>
 
-  <!-- ✅ Portrait/paysage auto : classe sur les images injectées sur Expositions -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       function markPortraitImages(root) {
