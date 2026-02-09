@@ -253,13 +253,17 @@ function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('soazig_lang', lang);
   
-  // Mettre à jour les textes statiques
-  updatePageTexts();
-  
-  // Recharger les données du Google Sheet
-  if (typeof reloadSheetData === 'function') {
-    reloadSheetData();
+  // Afficher le loader
+  const loader = document.getElementById('global-loader');
+  if (loader) {
+    loader.style.display = 'flex';
+    loader.setAttribute('aria-hidden', 'false');
   }
+  
+  // Recharger la page après un court délai pour que le loader s'affiche
+  setTimeout(() => {
+    window.location.reload();
+  }, 100);
 }
 
 // Fonction pour mettre à jour tous les textes de la page
