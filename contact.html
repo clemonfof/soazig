@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-title-i18n="contact_title">
 <script>
 (function() {
   'use strict';
@@ -17,19 +17,12 @@
   <meta charset="UTF-8" />
   <title>Contact – Soazig Héaulme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <meta name="color-scheme" content="light dark" />
-
 
   <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* =========================
-       LIGHTBOX — DA friendly
-       - pas de noir pur
-       - s’appuie sur tes tokens
-    ========================= */
     .lightbox-overlay{
       position: fixed;
       inset: 0;
@@ -85,10 +78,6 @@
       box-shadow: var(--shadow-float);
       background: var(--surface-ink);
     }
-
-    /* =========================
-       CONTACT — UI CLEAN + DENSE (theme-friendly)
-    ========================= */
 
     .contact-layout{
       display: grid;
@@ -209,29 +198,20 @@
       .form-textarea{ min-height: 150px; }
     }
 
-    /* =========================
-       MENU FOOTER : IG à gauche, THEME à droite
-    ========================= */
-    .nav-footer-right{
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .nav-theme-slot{
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      min-width: 44px;
-    }
+    .nav-lang {display: flex;gap: 0.5rem;align-items: center;}
+    .nav-lang a {padding: 0.4rem 0.8rem;border-radius: 999px;font-size: 0.85rem;letter-spacing: 0.1em;font-weight: 500;opacity: 0.6;transition: opacity 0.2s ease, background 0.2s ease;cursor: pointer;}
+    .nav-lang a:hover {opacity: 1;background: var(--surface-ink);}
+    .nav-lang a.active {opacity: 1;background: var(--accent);color: var(--text-main);}
+    .nav-footer {position: relative;}
+    .nav-footer-actions {position: absolute;right: 18px;bottom: 18px;display: inline-flex;align-items: center;gap: 12px;z-index: 5;}
+    .nav-footer-actions .nav-social {display: inline-flex;align-items: center;gap: 10px;}
+    #nav-theme-slot {display: inline-flex;align-items: center;justify-content: center;}
   </style>
 </head>
 
 <body>
-  <!-- ✅ GLOBAL LOADER (OBLIGATOIRE PARTOUT) -->
   <div id="global-loader" aria-hidden="true">
     <div class="loader-inner">
-      <!-- ✅ FIX LOGO CLAIR : data-logo-light -->
       <img class="site-logo"
            src="images/autres/logo.png"
            data-logo-dark="images/autres/logo.png"
@@ -243,15 +223,11 @@
 
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Menu principal">
     <div class="nav-top-block">
       <div class="nav-top-row">
         <div class="nav-top-left">
-          <div class="nav-label">Menu principal</div>
-          <div class="nav-lang">
-            <a href="index.html" class="active">FR</a>
-            <a href="en/index.html">EN</a>
-          </div>
+          <div class="nav-label" data-i18n="nav_label">Menu principal</div>
         </div>
 
         <label for="nav-toggle" class="menu-toggle-label nav-top-toggle">
@@ -260,33 +236,36 @@
       </div>
 
       <ul class="nav-main-list">
-        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
-        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
-        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
-        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
-        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
-        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
-        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
-        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
-        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+        <li><a class="nav-main-link" href="index.html"><span data-i18n="nav_accueil">Accueil</span><span class="meta" data-i18n="nav_accueil_meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span data-i18n="nav_galerie">Galerie</span><span class="meta" data-i18n="nav_galerie_meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span data-i18n="nav_disponibles">Disponibles</span><span class="meta" data-i18n="nav_disponibles_meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span data-i18n="nav_expositions">Expositions</span><span class="meta" data-i18n="nav_expositions_meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span data-i18n="nav_concerts">Concerts</span><span class="meta" data-i18n="nav_concerts_meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span data-i18n="nav_actualites">Actualités</span><span class="meta" data-i18n="nav_actualites_meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span data-i18n="nav_apropos">À propos</span><span class="meta" data-i18n="nav_apropos_meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span data-i18n="nav_presse">Presse</span><span class="meta" data-i18n="nav_presse_meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span data-i18n="nav_contact">Contact</span><span class="meta" data-i18n="nav_contact_meta">Professionnels</span></a></li>
       </ul>
     </div>
 
     <div class="nav-footer">
       <div>
-        © 2025 · L’atelier de Soazig<br />
-        Galerie en ligne · Aix-en-Provence
+        <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+        <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
       </div>
 
-      <!-- ✅ IG / Mail à gauche, bouton thème à droite -->
-      <div class="nav-footer-right">
+      <div class="nav-footer-actions">
         <div class="nav-social">
           <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
           <a href="mailto:soazigheaulme@gmail.com">@</a>
         </div>
-
-        <!-- ✅ SLOT : data-loader.js injecte le bouton thème ici -->
-        <div class="nav-theme-slot" id="nav-theme-slot" aria-label="Changer le thème"></div>
+        
+        <div class="nav-lang">
+          <a href="#" onclick="setLanguage('fr'); return false;" data-i18n="lang_fr">FR</a>
+          <a href="#" onclick="setLanguage('en'); return false;" data-i18n="lang_en">EN</a>
+        </div>
+        
+        <div id="nav-theme-slot"></div>
       </div>
     </div>
   </nav>
@@ -295,7 +274,6 @@
     <header class="site-header">
       <div class="header-inner">
         <a href="index.html" class="brand">
-          <!-- ✅ FIX LOGO CLAIR : data-logo-light -->
           <img class="site-logo"
                src="images/autres/logo.png"
                data-logo-dark="images/autres/logo.png"
@@ -309,79 +287,79 @@
 
     <div class="page-inner">
       <section class="page-hero">
-        <div class="page-hero-title">Contact</div>
+        <div class="page-hero-title" data-i18n="contact_title">Contact</div>
         <div class="page-hero-meta">
-          <span>Galeries · Programmateurs · Presse · Collectionneurs</span>
-          <span>Réponse personnalisée par email</span>
+          <span data-i18n="contact_subtitle">Galeries · Programmateurs · Presse · Collectionneurs</span>
+          <span data-i18n="contact_reponse">Réponse personnalisée par email</span>
         </div>
       </section>
 
       <section class="contact-layout">
         <div class="contact-card">
-          <div class="section-kicker">Formulaire</div>
-          <h2 class="section-title">Entrer en contact</h2>
+          <div class="section-kicker" data-i18n="contact_form_kicker">Formulaire</div>
+          <h2 class="section-title" data-i18n="contact_form_title">Entrer en contact</h2>
 
           <form action="mailto:soazigheaulme@gmail.com" method="post" enctype="text/plain">
             <div class="form-group">
-              <label class="form-label" for="type">Vous êtes</label>
+              <label class="form-label" for="type" data-i18n="contact_type_label">Vous êtes</label>
               <select id="type" name="type" class="form-select">
-                <option>Galerie / institution</option>
-                <option>Programmateur·rice / salle</option>
-                <option>Presse</option>
-                <option>Collectionneur·se</option>
-                <option>Autre</option>
+                <option data-i18n="contact_type_galerie">Galerie / institution</option>
+                <option data-i18n="contact_type_programmateur">Programmateur·rice / salle</option>
+                <option data-i18n="contact_type_presse">Presse</option>
+                <option data-i18n="contact_type_collectionneur">Collectionneur·se</option>
+                <option data-i18n="contact_type_autre">Autre</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="nom">Nom</label>
-              <input id="nom" name="nom" type="text" class="form-control" required placeholder="Votre nom / structure" />
+              <label class="form-label" for="nom" data-i18n="contact_nom_label">Nom</label>
+              <input id="nom" name="nom" type="text" class="form-control" required placeholder="Votre nom / structure" data-i18n-placeholder="contact_nom_placeholder" />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="email">Email</label>
-              <input id="email" name="email" type="email" class="form-control" required placeholder="email@exemple.com" />
+              <label class="form-label" for="email" data-i18n="contact_email_label">Email</label>
+              <input id="email" name="email" type="email" class="form-control" required placeholder="email@exemple.com" data-i18n-placeholder="contact_email_placeholder" />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="objet">Objet</label>
-              <input id="objet" name="objet" type="text" class="form-control" placeholder="Exposition / acquisition / presse..." />
+              <label class="form-label" for="objet" data-i18n="contact_objet_label">Objet</label>
+              <input id="objet" name="objet" type="text" class="form-control" placeholder="Exposition / acquisition / presse..." data-i18n-placeholder="contact_objet_placeholder" />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="message">Message</label>
+              <label class="form-label" for="message" data-i18n="contact_message_label">Message</label>
               <textarea id="message" name="message" class="form-textarea" required
-                placeholder="Projet d’exposition, demande d’acquisition, programmation de concert..."></textarea>
+                placeholder="Projet d'exposition, demande d'acquisition, programmation de concert..." data-i18n-placeholder="contact_message_placeholder"></textarea>
             </div>
 
             <div class="contact-actions">
-              <button type="submit" class="btn btn-primary">Envoyer</button>
-              <div class="contact-hint">Réponse sous 72h · Aucun spam · Vos informations restent privées</div>
+              <button type="submit" class="btn btn-primary" data-i18n="contact_send">Envoyer</button>
+              <div class="contact-hint" data-i18n="contact_hint">Réponse sous 72h · Aucun spam · Vos informations restent privées</div>
             </div>
           </form>
         </div>
 
         <div class="contact-card">
-          <div class="section-kicker">Coordonnées</div>
-          <h2 class="section-title">Informations</h2>
+          <div class="section-kicker" data-i18n="contact_info_kicker">Coordonnées</div>
+          <h2 class="section-title" data-i18n="contact_info_title">Informations</h2>
 
           <div class="contact-info">
-            <p>
+            <p data-i18n="contact_info_text">
               Pour toute demande concernant les œuvres (prix, disponibilité, exposition),
               les concerts ou la presse, vous pouvez écrire directement à :
             </p>
 
             <div class="info-line">
-              <div class="info-label">Email</div>
+              <div class="info-label" data-i18n="contact_email">Email</div>
               <a href="mailto:soazigheaulme@gmail.com">soazigheaulme@gmail.com</a>
             </div>
 
             <div class="info-line">
-              <div class="info-label">Instagram</div>
+              <div class="info-label" data-i18n="contact_instagram">Instagram</div>
               <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">@soazig.heaulme</a>
             </div>
 
-            <p>
+            <p data-i18n="contact_info_docs">
               Sur demande : biographies, fiches techniques, visuels HD pour la presse,
               dossier de présentation, etc.
             </p>
@@ -393,18 +371,17 @@
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
-          © 2025 · L’atelier de Soazig<br />
-          Galerie en ligne · Aix-en-Provence
+          <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+          <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
         </div>
         <div class="footer-links">
-          <a href="mentions-legales.html">Mentions légales</a>
-          <a href="confidentialite.html">Confidentialité</a>
+          <a href="mentions-legales.html" data-i18n="footer_mentions">Mentions légales</a>
+          <a href="confidentialite.html" data-i18n="footer_confidentialite">Confidentialité</a>
         </div>
       </div>
     </footer>
   </div>
 
-  <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="art-lightbox" aria-hidden="true">
     <div class="lightbox-inner">
       <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
@@ -412,6 +389,7 @@
     </div>
   </div>
 
+  <script src="translations.js" defer></script>
   <script src="data-loader.js" defer></script>
 </body>
 </html>
