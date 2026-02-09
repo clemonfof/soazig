@@ -24,9 +24,6 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* =========================
-       LIGHTBOX — DA friendly
-    ========================= */
     .lightbox-overlay{
       position: fixed;
       inset: 0;
@@ -83,73 +80,22 @@
       background: var(--surface-ink);
     }
 
-    /* Boutons de langue */
-    .nav-lang {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .nav-lang a {
-      padding: 0.4rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      font-weight: 500;
-      opacity: 0.6;
-      transition: opacity 0.2s ease, background 0.2s ease;
-      cursor: pointer;
-    }
-
-    .nav-lang a:hover {
-      opacity: 1;
-      background: var(--surface-ink);
-    }
-
-    .nav-lang a.active {
-      opacity: 1;
-      background: var(--accent);
-      color: var(--text-main);
-    }
-
-    .nav-footer {
-      position: relative;
-    }
-
-    .nav-footer-actions {
-      position: absolute;
-      right: 18px;
-      bottom: 18px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 5;
-    }
-
-    .nav-footer-actions .nav-social {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    #nav-theme-slot {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .nav-lang {display: flex;gap: 0.5rem;align-items: center;}
+    .nav-lang a {padding: 0.4rem 0.8rem;border-radius: 999px;font-size: 0.85rem;letter-spacing: 0.1em;font-weight: 500;opacity: 0.6;transition: opacity 0.2s ease, background 0.2s ease;cursor: pointer;}
+    .nav-lang a:hover {opacity: 1;background: var(--surface-ink);}
+    .nav-lang a.active {opacity: 1;background: var(--accent);color: var(--text-main);}
+    .nav-footer {position: relative;}
+    .nav-footer-actions {position: absolute;right: 18px;bottom: 18px;display: inline-flex;align-items: center;gap: 12px;z-index: 5;}
+    .nav-footer-actions .nav-social {display: inline-flex;align-items: center;gap: 10px;}
+    #nav-theme-slot {display: inline-flex;align-items: center;justify-content: center;}
   </style>
 </head>
 
 <body>
 
-  <!-- ✅ GLOBAL LOADER -->
   <div id="global-loader" aria-hidden="true">
     <div class="loader-inner">
-      <img class="site-logo" 
-           src="images/autres/logo.png"
-           data-logo-dark="images/autres/logo.png"
-           data-logo-light="images/autres/logo_clair.png"
-           alt="Chargement" />
+      <img class="site-logo" src="images/autres/logo.png" data-logo-dark="images/autres/logo.png" data-logo-light="images/autres/logo_clair.png" alt="Chargement" />
       <div class="loader-line"></div>
     </div>
   </div>
@@ -186,14 +132,12 @@
         <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
       </div>
 
-      <!-- ✅ Actions en bas à droite -->
       <div class="nav-footer-actions">
         <div class="nav-social">
           <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
           <a href="mailto:soazigheaulme@gmail.com">@</a>
         </div>
         
-        <!-- Boutons de langue -->
         <div class="nav-lang">
           <a href="#" onclick="setLanguage('fr'); return false;" data-i18n="lang_fr">FR</a>
           <a href="#" onclick="setLanguage('en'); return false;" data-i18n="lang_en">EN</a>
@@ -209,12 +153,7 @@
     <header class="site-header">
       <div class="header-inner">
         <a href="index.html" class="brand">
-          <img class="site-logo" 
-               src="images/autres/logo.png"
-               data-logo-dark="images/autres/logo.png"
-               data-logo-light="images/autres/logo_clair.png"
-               alt="Logo Soazig Héaulme" 
-               style="height:120px;width:auto;display:block;" />
+          <img class="site-logo" src="images/autres/logo.png" data-logo-dark="images/autres/logo.png" data-logo-light="images/autres/logo_clair.png" alt="Logo Soazig Héaulme" style="height:120px;width:auto;display:block;" />
         </a>
         <label for="nav-toggle" class="menu-toggle-label">
           <span></span>
@@ -238,21 +177,19 @@
           <img src="images/autres/portrait.png" alt="Portrait Soazig Héaulme" class="js-zoomable" />
         </div>
 
-        <div class="about-text" style="white-space:pre-line;">
+        <!-- VERSION FRANÇAISE -->
+        <div class="about-text" lang="fr" style="white-space:pre-line;">
 
 ARTISTE PEINTRE, CHANTEUSE LYRIQUE.
-Comme un trait continu, l'expression artistique a toujours été une respiration, qui s'est imposée au fil du
-temps comme projet de vie.
+Comme un trait continu, l'expression artistique a toujours été une respiration, qui s'est imposée au fil du temps comme projet de vie.
 La peinture et le chant, les deux disciplines trouvent écho l'une à l'autre et me définissent aujourd'hui.
-Bretonne accostée dans le sud de la france, peintre lyrique, ici ou ailleurs cela ne me quitte jamais, au
-bout de mes doigts l'océan pénétrant. Je me pose là, devant le ciel immense et cette mer vivante, aux
-frontières de l'abstrait, comme autant de notes sur une partition, retranscris la musique du paysage.
+Bretonne accostée dans le sud de la France, peintre lyrique, ici ou ailleurs cela ne me quitte jamais, au bout de mes doigts l'océan pénétrant. Je me pose là, devant le ciel immense et cette mer vivante, aux frontières de l'abstrait, comme autant de notes sur une partition, retranscris la musique du paysage.
 
 PARCOURS
 
 • Formation artistique
 Apprentissage dans un atelier de peintres à Aix-en-Provence afin de préparer le concours d'entrée aux Beaux-Arts.
-Les Beaux-Arts d'Aix-en-Provence. Formation professionnelle au trompe-l'oeil et à la peinture décorative à l'école de Pantin.
+Les Beaux-Arts d'Aix-en-Provence. Formation professionnelle au trompe-l'œil et à la peinture décorative à l'école de Pantin.
 Formation au chant lyrique en cours particuliers avec Isabelle Cambrilat à Eguilles et Guy Lacayrerie à Marseille.
 
 • Parcours professionnel
@@ -261,14 +198,34 @@ Coloriste dans le dessin animé à Paris (Astérix et Obélix, Studio Gaumont. B
 Le Marsupilami, Studio Marathon). Animation d'ateliers de peinture à La Maison de Gardane. Secrétariat, logistique, livraison de paniers au magasin Ma Terre, 100% bio 100% local. Artiste peintre et chanteuse lyrique.
 
 • Les Expositions
-Salon de l'Agriculture 2002 en partenariat avec la galerie Courant d'Art Paris 3ème. Atelier collectif à Marseille. Divers salons de la
-nature dans les Bouches-du-Rhône (Trets, la Roque d'Anthéron, Bouc-Bel-Air ). Expositions collectives à la galerie d'art de l'ESDAC à
-Aix-en-Provence. Expositions individuelles : La salle Mistral à Eguilles (13 ), Librairie Forum Harmonia Mundi à Aix-en-Provence, Ma Terre
-à Aix-en-Provence, La Clé des Champs à Ventabren, Le Château Revelette à Jouques, Studio Azoé Aix-en-Provence, La Porte Rouge
-Atelier Galerie à Plogoff, Le marché bio local et musical de Pont-Croix, Atelier de l'Image à Pont-Croix, La Méduse à Paris, expo-
-concert chez l'habitant à Eguilles, expo-concert La Fanfare Culture à Aix-en-Provence, Tableaux à emporter à « l'atelier de Soazig »
-exposition permanente à Aix-en-Provence.
+Salon de l'Agriculture 2002 en partenariat avec la galerie Courant d'Art Paris 3ème. Atelier collectif à Marseille. Divers salons de la nature dans les Bouches-du-Rhône (Trets, la Roque d'Anthéron, Bouc-Bel-Air). Expositions collectives à la galerie d'art de l'ESDAC à Aix-en-Provence. Expositions individuelles : La salle Mistral à Eguilles (13), Librairie Forum Harmonia Mundi à Aix-en-Provence, Ma Terre à Aix-en-Provence, La Clé des Champs à Ventabren, Le Château Revelette à Jouques, Studio Azoé Aix-en-Provence, La Porte Rouge Atelier Galerie à Plogoff, Le marché bio local et musical de Pont-Croix, Atelier de l'Image à Pont-Croix, La Méduse à Paris, expo-concert chez l'habitant à Eguilles, expo-concert La Fanfare Culture à Aix-en-Provence, Tableaux à emporter à « l'atelier de Soazig » exposition permanente à Aix-en-Provence.
 ••• Jalonné de nombreux concerts et récitals.
+
+        </div>
+
+        <!-- VERSION ANGLAISE -->
+        <div class="about-text" lang="en" style="white-space:pre-line;display:none;">
+
+PAINTER, LYRIC SINGER.
+Like a continuous line, artistic expression has always been a breath, which has become a life project over time.
+Painting and singing, both disciplines echo each other and define me today.
+A Breton who landed in the south of France, a lyric painter, here or elsewhere it never leaves me, at my fingertips the penetrating ocean. I settle there, before the immense sky and this living sea, on the borders of the abstract, like so many notes on a score, transcribing the music of the landscape.
+
+BACKGROUND
+
+• Artistic Training
+Apprenticeship in a painters' studio in Aix-en-Provence to prepare for the entrance exam to the Fine Arts School.
+Fine Arts School of Aix-en-Provence. Professional training in trompe-l'œil and decorative painting at the Pantin school.
+Lyric singing training in private lessons with Isabelle Cambrilat in Eguilles and Guy Lacayrerie in Marseille.
+
+• Professional Career
+Leading painting workshops in psychiatric hospital settings (CH Montperrin in Aix-en-Provence and Edouard Toulouse in Marseille)
+Colorist in animated films in Paris (Asterix and Obelix, Studio Gaumont. Babar, Tintin, Black and Mortimer, Orson and Olivia, Studio Ellipse.
+Le Marsupilami, Studio Marathon). Leading painting workshops at La Maison de Gardane. Secretarial work, logistics, basket delivery at Ma Terre store, 100% organic 100% local. Painter and lyric singer.
+
+• Exhibitions
+Agriculture Fair 2002 in partnership with Courant d'Art gallery Paris 3rd. Collective studio in Marseille. Various nature fairs in Bouches-du-Rhône (Trets, la Roque d'Anthéron, Bouc-Bel-Air). Collective exhibitions at the ESDAC art gallery in Aix-en-Provence. Solo exhibitions: Salle Mistral in Eguilles (13), Librairie Forum Harmonia Mundi in Aix-en-Provence, Ma Terre in Aix-en-Provence, La Clé des Champs in Ventabren, Château Revelette in Jouques, Studio Azoé Aix-en-Provence, La Porte Rouge Atelier Galerie in Plogoff, Local and musical organic market in Pont-Croix, Atelier de l'Image in Pont-Croix, La Méduse in Paris, home concert-exhibition in Eguilles, concert-exhibition La Fanfare Culture in Aix-en-Provence, Paintings to go at "l'atelier de Soazig" permanent exhibition in Aix-en-Provence.
+••• Punctuated by numerous concerts and recitals.
 
         </div>
 
@@ -291,7 +248,6 @@ exposition permanente à Aix-en-Provence.
 
   </div>
 
-  <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="art-lightbox" aria-hidden="true">
     <div class="lightbox-inner">
       <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
@@ -299,7 +255,6 @@ exposition permanente à Aix-en-Provence.
     </div>
   </div>
 
-  <!-- JS - ORDRE IMPORTANT : translations.js AVANT data-loader.js -->
   <script src="translations.js" defer></script>
   <script src="data-loader.js" defer></script>
 </body>
