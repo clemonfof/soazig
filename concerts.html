@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-title-i18n="concerts_title">
 <script>
 (function() {
   'use strict';
@@ -19,14 +19,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
 
-
   <link rel="icon" type="image/png" href="images/autres/logo_favicon.png" />
-  <link rel="stylesheet" href="style.css?v=20251224-concerts-logo-auto" />
+  <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* =========================
-       LIGHTBOX — DA friendly
-    ========================= */
     .lightbox-overlay{
       position: fixed;
       inset: 0;
@@ -78,10 +74,6 @@
       box-shadow: var(--shadow-float);
       background: var(--surface-ink);
     }
-
-    /* =========================
-       CONCERTS — GRID 2 PROPRE
-    ========================= */
 
     .page-inner .section-title{
       font-size: clamp(1.3rem, 2.2vw, 1.6rem);
@@ -182,40 +174,18 @@
       .event-list img.is-portrait{ max-height: 320px; }
     }
 
-    /* =========================
-       ✅ MENU FOOTER ACTIONS (IG/@ + THEME en bas à droite)
-       (Si ton style.css a déjà .nav-footer en flex, on ne le casse pas :
-        on fait un wrapper sans position:absolute, stable partout.)
-    ========================= */
-    .nav-footer{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .nav-footer-actions{
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-footer-actions .nav-social{
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    #nav-theme-slot{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .nav-lang {display: flex;gap: 0.5rem;align-items: center;}
+    .nav-lang a {padding: 0.4rem 0.8rem;border-radius: 999px;font-size: 0.85rem;letter-spacing: 0.1em;font-weight: 500;opacity: 0.6;transition: opacity 0.2s ease, background 0.2s ease;cursor: pointer;}
+    .nav-lang a:hover {opacity: 1;background: var(--surface-ink);}
+    .nav-lang a.active {opacity: 1;background: var(--accent);color: var(--text-main);}
+    .nav-footer{position: relative;}
+    .nav-footer-actions{position: absolute;right: 18px;bottom: 18px;display: inline-flex;align-items: center;gap: 12px;z-index: 5;}
+    .nav-footer-actions .nav-social{display: inline-flex;align-items: center;gap: 10px;}
+    #nav-theme-slot{display: inline-flex;align-items: center;justify-content: center;}
   </style>
 </head>
 
 <body>
-  <!-- ✅ GLOBAL LOADER -->
   <div id="global-loader" aria-hidden="true">
     <div class="loader-inner">
       <img class="site-logo"
@@ -229,44 +199,45 @@
 
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
 
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Menu principal">
     <div class="nav-top-block">
       <div class="nav-top-row">
         <div class="nav-top-left">
-          <div class="nav-label">Menu principal</div>
-          <div class="nav-lang">
-            <a href="index.html" class="active">FR</a>
-            <a href="en/index.html">EN</a>
-          </div>
+          <div class="nav-label" data-i18n="nav_label">Menu principal</div>
         </div>
         <label for="nav-toggle" class="menu-toggle-label nav-top-toggle"><span></span></label>
       </div>
 
       <ul class="nav-main-list">
-        <li><a class="nav-main-link" href="index.html"><span>Accueil</span><span class="meta">Présentation</span></a></li>
-        <li><a class="nav-main-link" href="galerie.html"><span>Galerie</span><span class="meta">Œuvres</span></a></li>
-        <li><a class="nav-main-link" href="disponibles.html"><span>Disponibles</span><span class="meta">Acquisitions</span></a></li>
-        <li><a class="nav-main-link" href="expositions.html"><span>Expositions</span><span class="meta">Calendrier</span></a></li>
-        <li><a class="nav-main-link" href="concerts.html"><span>Concerts</span><span class="meta">Agenda Lyrique</span></a></li>
-        <li><a class="nav-main-link" href="actualites.html"><span>Actualités</span><span class="meta">Nouvelles</span></a></li>
-        <li><a class="nav-main-link" href="apropos.html"><span>À propos</span><span class="meta">Démarche</span></a></li>
-        <li><a class="nav-main-link" href="presse.html"><span>Presse</span><span class="meta">Sélection</span></a></li>
-        <li><a class="nav-main-link" href="contact.html"><span>Contact</span><span class="meta">Professionnels</span></a></li>
+        <li><a class="nav-main-link" href="index.html"><span data-i18n="nav_accueil">Accueil</span><span class="meta" data-i18n="nav_accueil_meta">Présentation</span></a></li>
+        <li><a class="nav-main-link" href="galerie.html"><span data-i18n="nav_galerie">Galerie</span><span class="meta" data-i18n="nav_galerie_meta">Œuvres</span></a></li>
+        <li><a class="nav-main-link" href="disponibles.html"><span data-i18n="nav_disponibles">Disponibles</span><span class="meta" data-i18n="nav_disponibles_meta">Acquisitions</span></a></li>
+        <li><a class="nav-main-link" href="expositions.html"><span data-i18n="nav_expositions">Expositions</span><span class="meta" data-i18n="nav_expositions_meta">Calendrier</span></a></li>
+        <li><a class="nav-main-link" href="concerts.html"><span data-i18n="nav_concerts">Concerts</span><span class="meta" data-i18n="nav_concerts_meta">Agenda Lyrique</span></a></li>
+        <li><a class="nav-main-link" href="actualites.html"><span data-i18n="nav_actualites">Actualités</span><span class="meta" data-i18n="nav_actualites_meta">Nouvelles</span></a></li>
+        <li><a class="nav-main-link" href="apropos.html"><span data-i18n="nav_apropos">À propos</span><span class="meta" data-i18n="nav_apropos_meta">Démarche</span></a></li>
+        <li><a class="nav-main-link" href="presse.html"><span data-i18n="nav_presse">Presse</span><span class="meta" data-i18n="nav_presse_meta">Sélection</span></a></li>
+        <li><a class="nav-main-link" href="contact.html"><span data-i18n="nav_contact">Contact</span><span class="meta" data-i18n="nav_contact_meta">Professionnels</span></a></li>
       </ul>
     </div>
 
     <div class="nav-footer">
       <div>
-        © 2025 · L’atelier de Soazig<br />
-        Galerie en ligne · Aix-en-Provence
+        <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+        <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
       </div>
 
-      <!-- ✅ en bas à droite : IG/@ à gauche, bouton thème à droite -->
       <div class="nav-footer-actions">
         <div class="nav-social">
           <a href="https://instagram.com/soazig.heaulme" target="_blank" rel="noopener">IG</a>
           <a href="mailto:soazigheaulme@gmail.com">@</a>
         </div>
+        
+        <div class="nav-lang">
+          <a href="#" onclick="setLanguage('fr'); return false;" data-i18n="lang_fr">FR</a>
+          <a href="#" onclick="setLanguage('en'); return false;" data-i18n="lang_en">EN</a>
+        </div>
+        
         <div id="nav-theme-slot"></div>
       </div>
     </div>
@@ -290,18 +261,18 @@
 
     <div class="page-inner">
       <section class="page-hero">
-        <div class="page-hero-title">Concerts</div>
+        <div class="page-hero-title" data-i18n="concerts_title">Concerts</div>
       </section>
 
       <section>
-        <div class="section-kicker">Agenda</div>
-        <h2 class="section-title">Prochains concerts</h2>
+        <div class="section-kicker" data-i18n="concerts_kicker_avenir">Agenda</div>
+        <h2 class="section-title" data-i18n="concerts_prochains">Prochains concerts</h2>
         <ul id="concerts-avenir" class="event-list"></ul>
       </section>
 
       <section style="margin-top:3rem;">
-        <div class="section-kicker">Archives</div>
-        <h2 class="section-title">Concerts passés</h2>
+        <div class="section-kicker" data-i18n="concerts_kicker_passes">Archives</div>
+        <h2 class="section-title" data-i18n="concerts_passes">Concerts passés</h2>
         <ul id="concerts-passes" class="event-list"></ul>
       </section>
     </div>
@@ -309,18 +280,17 @@
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
-          © 2025 · L’atelier de Soazig<br />
-          Galerie en ligne · Aix-en-Provence
+          <span data-i18n="footer_copyright">© 2025 · Soazig Héaulme</span><br />
+          <span data-i18n="footer_subtitle">Galerie en ligne · Paris</span>
         </div>
         <div class="footer-links">
-          <a href="mentions-legales.html">Mentions légales</a>
-          <a href="confidentialite.html">Confidentialité</a>
+          <a href="mentions-legales.html" data-i18n="footer_mentions">Mentions légales</a>
+          <a href="confidentialite.html" data-i18n="footer_confidentialite">Confidentialité</a>
         </div>
       </div>
     </footer>
   </div>
 
-  <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="art-lightbox">
     <div class="lightbox-inner">
       <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
@@ -328,11 +298,9 @@
     </div>
   </div>
 
-  <!-- ⚠️ IMPORTANT: change aussi le JS (ensureThemeToggleButton) comme je t’ai donné.
-       Ici on garde juste un cache-bust. -->
-  <script src="data-loader.js?v=20251224-bottom-right-slot" defer></script>
+  <script src="translations.js" defer></script>
+  <script src="data-loader.js" defer></script>
 
-  <!-- Portrait/paysage auto -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       function markPortraitImages(root) {
@@ -363,43 +331,6 @@
 
       const obs = new MutationObserver(() => markPortraitImages(document));
       targets.forEach(t => obs.observe(t, { childList: true, subtree: true }));
-    });
-  </script>
-
-  <!-- Lightbox -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const overlay = document.getElementById("art-lightbox");
-      const img = overlay.querySelector("img");
-      const closeBtn = overlay.querySelector(".lightbox-close");
-
-      function openLightbox(src, alt) {
-        img.src = src;
-        img.alt = alt || "";
-        overlay.classList.add("is-visible");
-      }
-
-      function closeLightbox() {
-        overlay.classList.remove("is-visible");
-        img.src = "";
-      }
-
-      document.body.addEventListener("click", (e) => {
-        const target = e.target.closest(".js-zoomable");
-        if (target) {
-          e.preventDefault();
-          openLightbox(target.src, target.alt);
-        }
-      });
-
-      closeBtn.addEventListener("click", closeLightbox);
-      overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) closeLightbox();
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeLightbox();
-      });
     });
   </script>
 </body>
