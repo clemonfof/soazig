@@ -1275,17 +1275,21 @@ function renderExpositions(expos) {
     } else if (e.dDebut) {
       dateText = e.dDebut.toLocaleDateString("fr-FR");
     }
+    
+    const titre = getLocalizedField(e, 'titre') || "";
+    const lieu = getLocalizedField(e, 'lieu') || "";
+    const description = getLocalizedField(e, 'description') || "";
 
     const li = document.createElement("li");
     li.className = "event-item";
-    li.id = makeStableId("expo", e.titre || "", e.dDebut ? e.dDebut.toISOString().slice(0,10) : "");
+    li.id = makeStableId("expo", titre, e.dDebut ? e.dDebut.toISOString().slice(0,10) : "");
 
     li.innerHTML = `
       <div class="event-date">${escapeHtml(dateText)}</div>
       <div>
-        ${e.img ? `<div class="event-image"><img class="js-zoomable" src="${e.img}" alt="${escapeHtml(e.titre || "")}"></div>` : ""}
-        <div class="event-title">${escapeHtml(e.titre || "")}</div>
-        <div class="event-meta">${escapeHtml((e.lieu || "") + " · " + (e.description || ""))}</div>
+        ${e.img ? `<div class="event-image"><img class="js-zoomable" src="${e.img}" alt="${escapeHtml(titre)}"></div>` : ""}
+        <div class="event-title">${escapeHtml(titre)}</div>
+        <div class="event-meta">${escapeHtml(lieu + (description ? " · " + description : ""))}</div>
       </div>
     `;
 
@@ -1356,12 +1360,12 @@ function renderPresse(entries) {
     card.innerHTML = `
       ${p.image ? `
         <div class="card-thumb">
-          <img class="js-zoomable" src="${driveToImageUrl(p.image)}" alt="${escapeHtml(p.titre || "")}">
+          <img class="js-zoomable" src="${driveToImageUrl(p.image)}" alt="${escapeHtml(getLocalizedField(p, "titre") || "")}">
         </div>` : ""
       }
-      <div class="card-kicker">${escapeHtml(p.source || "Presse")}</div>
-      <h3 class="card-title">${escapeHtml(p.titre || "")}</h3>
-      <p class="card-text">${escapeHtml(dateText)}${escapeHtml(p.texte || "")}</p>
+      <div class="card-kicker">${escapeHtml(getLocalizedField(p, "source") || "Presse")}</div>
+      <h3 class="card-title">${escapeHtml(getLocalizedField(p, "titre") || "")}</h3>
+      <p class="card-text">${escapeHtml(dateText)}${escapeHtml(getLocalizedField(p, "texte") || "")}</p>
       ${p.lien ? `<a class="card-link" href="${p.lien}" target="_blank" rel="noopener">Ouvrir l’article</a>` : ""}
     `;
 
