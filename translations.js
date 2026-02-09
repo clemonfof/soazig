@@ -89,6 +89,8 @@ const translations = {
     // PAGE À PROPOS
     apropos_title: "À propos",
     apropos_subtitle: "Artiste peintre & chanteuse lyrique",
+    apropos_meta1: "Parcours artistique & lyrique",
+    apropos_meta2: "Peinture · Chant lyrique",
     
     // PAGE CONTACT
     contact_title: "Contact",
@@ -208,6 +210,8 @@ const translations = {
     // PAGE À PROPOS
     apropos_title: "About",
     apropos_subtitle: "Painter & lyric singer",
+    apropos_meta1: "Artistic & lyric journey",
+    apropos_meta2: "Painting · Lyric singing",
     
     // PAGE CONTACT
     contact_title: "Contact",
