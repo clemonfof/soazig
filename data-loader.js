@@ -1310,17 +1310,21 @@ function renderConcerts(concerts) {
     const imgUrl = driveToImageUrl(c.image);
     const d = parseSheetDate(c.date);
     const isFuture = isFutureOrToday(d);
+    
+    const titre = getLocalizedField(c, 'titre') || "";
+    const lieu = getLocalizedField(c, 'lieu') || "";
+    const description = getLocalizedField(c, 'description') || "";
 
     const li = document.createElement("li");
     li.className = "event-item";
-    li.id = makeStableId("concert", c.titre || "", d ? d.toISOString().slice(0,10) : "");
+    li.id = makeStableId("concert", titre, d ? d.toISOString().slice(0,10) : "");
 
     li.innerHTML = `
       <div class="event-date">${escapeHtml(d ? d.toLocaleDateString("fr-FR") : "")}</div>
       <div>
-        ${imgUrl ? `<div class="event-image"><img class="js-zoomable" src="${imgUrl}" alt="${escapeHtml(c.titre || "")}"></div>` : ""}
-        <div class="event-title">${escapeHtml(c.titre || "")}</div>
-        <div class="event-meta">${escapeHtml((c.lieu || "") + " · " + (c.description || ""))}</div>
+        ${imgUrl ? `<div class="event-image"><img class="js-zoomable" src="${imgUrl}" alt="${escapeHtml(titre)}"></div>` : ""}
+        <div class="event-title">${escapeHtml(titre)}</div>
+        <div class="event-meta">${escapeHtml(lieu + (description ? " · " + description : ""))}</div>
       </div>
     `;
 
