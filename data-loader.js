@@ -11,7 +11,7 @@
    - Re-place automatique quand le menu s’ouvre/se ferme + robustesse MutationObserver
 */
 
-console.log("BUILD:", window.__BUILD__);
+// Build version removed
 
 // =========================
 // LANGUE (FR / EN) - Utilise les fonctions de translations.js
@@ -1356,17 +1356,20 @@ function renderPresse(entries) {
       const d = parseSheetDate(p.date);
       if (d) dateText = d.toLocaleDateString("fr-FR") + " · ";
     }
+    const titre = getLocalizedField(p, 'titre') || "";
+    const source = getLocalizedField(p, 'source') || "Presse";
+    const texte = getLocalizedField(p, 'texte') || "";
 
     card.innerHTML = `
       ${p.image ? `
         <div class="card-thumb">
-          <img class="js-zoomable" src="${driveToImageUrl(p.image)}" alt="${escapeHtml(getLocalizedField(p, "titre") || "")}">
+          <img class="js-zoomable" src="${driveToImageUrl(p.image)}" alt="${escapeHtml(titre)}">
         </div>` : ""
       }
-      <div class="card-kicker">${escapeHtml(getLocalizedField(p, "source") || "Presse")}</div>
-      <h3 class="card-title">${escapeHtml(getLocalizedField(p, "titre") || "")}</h3>
-      <p class="card-text">${escapeHtml(dateText)}${escapeHtml(getLocalizedField(p, "texte") || "")}</p>
-      ${p.lien ? `<a class="card-link" href="${p.lien}" target="_blank" rel="noopener">Ouvrir l’article</a>` : ""}
+      <div class="card-kicker">${escapeHtml(source)}</div>
+      <h3 class="card-title">${escapeHtml(titre)}</h3>
+      <p class="card-text">${escapeHtml(dateText)}${escapeHtml(texte)}</p>
+      ${p.lien ? `<a class="card-link" href="${p.lien}" target="_blank" rel="noopener">Ouvrir l'article</a>` : ""}
     `;
 
     container.appendChild(card);
@@ -1506,7 +1509,8 @@ function showGlobalLoader() {
 function hideGlobalLoader() {
   const loader = document.getElementById("global-loader");
   if (!loader) return;
-  loader.classList.add("is-hidden");
+  loader.style.display = "none";
+  loader.setAttribute("aria-hidden", "true");
 }
 
 // Quand tu navigues vers une page interne, on remet le global loader
