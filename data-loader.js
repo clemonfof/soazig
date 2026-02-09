@@ -619,15 +619,15 @@ function openArtSheet(o) {
   const imgUrl = driveToImageUrl(o.image);
   if (imgUrl) {
     img.setAttribute("src", imgUrl);
-    img.alt = getLocalizedField(o, 'title') || "";
+    img.alt = o.title || "";
   } else {
     img.removeAttribute("src");
-    img.alt = getLocalizedField(o, 'title') || "";
+    img.alt = o.title || "";
   }
 
-  if (title) title.textContent = getLocalizedField(o, 'title') || "";
+  if (title) title.textContent = o.title || "";
 
-  const metaText = [getLocalizedField(o, 'technique') || "", o.dimensions || "", o.annee || ""].filter(Boolean).join(" · ");
+  const metaText = [o.technique || "", o.dimensions || "", o.annee || ""].filter(Boolean).join(" · ");
   if (meta) meta.textContent = metaText;
 
   const st = (o.statut || "").toString().trim().toLowerCase();
@@ -716,7 +716,7 @@ function renderOeuvresPhares(list) {
       
       const img = document.createElement("img");
       img.src = driveToImageUrl(o.image);
-      img.alt = getLocalizedField(o, 'title') || "";
+      img.alt = o.title || "";
       img.classList.add("js-zoomable");
       thumb.appendChild(img);
       
@@ -731,9 +731,9 @@ function renderOeuvresPhares(list) {
       body.innerHTML = `
         ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
         
-        <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
+        <div class="art-title">${escapeHtml(o.title || "")}</div>
 
-        <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
+        <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -769,7 +769,7 @@ function renderOeuvresPhares(list) {
     
     const img = document.createElement("img");
     img.src = driveToImageUrl(o.image);
-    img.alt = getLocalizedField(o, 'title') || "";
+    img.alt = o.title || "";
     img.classList.add("js-zoomable");
     thumb.appendChild(img);
     
@@ -784,9 +784,9 @@ function renderOeuvresPhares(list) {
     body.innerHTML = `
       ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
       
-      <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
+      <div class="art-title">${escapeHtml(o.title || "")}</div>
 
-      <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
+      <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
       <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
       <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -884,17 +884,16 @@ function renderActualitesAccueil(nextExpo, nextConcert, nouvelleOeuvre) {
 
     if (nextExpo) {
       const d = nextExpo.d || parseSheetDate(nextExpo.date_debut);
-      if (titleEl) titleEl.textContent = getLocalizedField(nextExpo, 'titre') || "Exposition";
-      if (textEl) textEl.textContent = `${getLocalizedField(nextExpo, 'lieu') || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
+      if (titleEl) titleEl.textContent = nextExpo.titre || "Exposition";
+      if (textEl) textEl.textContent = `${nextExpo.lieu || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
 
       if (thumbImg && nextExpo.image) {
         if (thumbWrap) thumbWrap.style.display = "";
-        setImgWithFallback(thumbImg, driveToImageUrl(nextExpo.image), getLocalizedField(nextExpo, 'titre') || "Exposition");
+        setImgWithFallback(thumbImg, driveToImageUrl(nextExpo.image), nextExpo.titre || "Exposition");
         thumbImg.classList.add("js-zoomable");
       }
     } else {
-      const noExpoText = typeof t === 'function' ? t('actus_aucune_expo') : "Aucune exposition prévue";
-      if (titleEl) titleEl.textContent = noExpoText;
+      if (titleEl) titleEl.textContent = "Aucune exposition prévue";
       if (textEl) textEl.textContent = "";
       if (thumbWrap) thumbWrap.style.display = "none";
     }
@@ -912,17 +911,16 @@ function renderActualitesAccueil(nextExpo, nextConcert, nouvelleOeuvre) {
 
     if (nextConcert) {
       const d = nextConcert.d || parseSheetDate(nextConcert.date);
-      if (titleEl) titleEl.textContent = getLocalizedField(nextConcert, 'titre') || "Concert";
-      if (textEl) textEl.textContent = `${getLocalizedField(nextConcert, 'lieu') || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
+      if (titleEl) titleEl.textContent = nextConcert.titre || "Concert";
+      if (textEl) textEl.textContent = `${nextConcert.lieu || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
 
       if (thumbImg && nextConcert.image) {
         if (thumbWrap) thumbWrap.style.display = "";
-        setImgWithFallback(thumbImg, driveToImageUrl(nextConcert.image), getLocalizedField(nextConcert, 'titre') || "Concert");
+        setImgWithFallback(thumbImg, driveToImageUrl(nextConcert.image), nextConcert.titre || "Concert");
         thumbImg.classList.add("js-zoomable");
       }
     } else {
-      const noConcertText = typeof t === 'function' ? t('actus_aucun_concert') : "Aucun concert prévu";
-      if (titleEl) titleEl.textContent = noConcertText;
+      if (titleEl) titleEl.textContent = "Aucun concert prévu";
       if (textEl) textEl.textContent = "";
       if (thumbWrap) thumbWrap.style.display = "none";
     }
@@ -939,7 +937,8 @@ function renderActualitesAccueil(nextExpo, nextConcert, nouvelleOeuvre) {
       nouvelleCard.querySelector("#nouvelle-thumb") ||
       nouvelleCard.querySelector(".card-thumb img");
 
-    if (kickerEl) kickerEl.textContent = "Œuvre";
+    const oeuvreText = typeof t === 'function' ? t('actus_oeuvre') : "Œuvre";
+    if (kickerEl) kickerEl.textContent = oeuvreText;
 
     if (nouvelleOeuvre) {
       if (thumbImg && nouvelleOeuvre.image) {
@@ -1086,12 +1085,12 @@ function renderActualitesPage({ expos = [], concerts = [], oeuvres = [] } = {}) 
   const itemsConcert = concerts
     .map((c) => {
       const d = parseSheetDate(c.date);
-      const id = makeStableId("concert", getLocalizedField(c, 'titre') || "", d ? d.toISOString().slice(0, 10) : "");
+      const id = makeStableId("concert", c.titre || "", d ? d.toISOString().slice(0, 10) : "");
       return {
         type: "concert",
         kind: "Concert",
-        titre: getLocalizedField(c, 'titre') || "",
-        lieu: getLocalizedField(c, 'lieu') || "",
+        titre: c.titre || "",
+        lieu: c.lieu || "",
         date: d,
         dateText: d ? formatDateFR(d) : "",
         img: driveToImageUrl(c.image),
@@ -1102,15 +1101,15 @@ function renderActualitesPage({ expos = [], concerts = [], oeuvres = [] } = {}) 
     .sort((a, b) => (a.date || 0) - (b.date || 0));
 
   const itemsOeuvres = oeuvres
-    .filter((o) => getLocalizedField(o, 'title'))
+    .filter((o) => o.title)
     .filter((o) => isTruthyOuiActu(o.actualites))
     .map((o) => {
-      const id = makeStableId("oeuvre", getLocalizedField(o, 'title') || "", o.annee || "");
+      const id = makeStableId("oeuvre", o.title || "", o.annee || "");
       return {
         type: "oeuvre",
         kind: "Nouvelle œuvre",
-        titre: getLocalizedField(o, 'title') || "",
-        lieu: getLocalizedField(o, 'technique') || "",
+        titre: o.title || "",
+        lieu: o.technique || "",
         date: null,
         dateText: o.annee ? escapeHtml(o.annee) : "",
         img: driveToImageUrl(o.image),
@@ -1182,7 +1181,7 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
   container.innerHTML = "";
 
   oeuvres
-    .filter((o) => getLocalizedField(o, 'title'))
+    .filter((o) => o.title)
     .filter((o) => !filterStatut || (o.statut || "").toLowerCase() === filterStatut)
     .forEach((o) => {
       const imgUrl = driveToImageUrl(o.image);
@@ -1194,7 +1193,7 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
 
       const card = document.createElement("article");
       card.className = "art-card";
-      card.id = makeStableId("oeuvre", getLocalizedField(o, 'title') || "", o.annee || "");
+      card.id = makeStableId("oeuvre", o.title || "", o.annee || "");
 
       const thumb = document.createElement("div");
       thumb.className = "art-thumb";
@@ -1202,7 +1201,7 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
       if (imgUrl) {
         const img = document.createElement("img");
         img.src = imgUrl;
-        img.alt = getLocalizedField(o, 'title') || "";
+        img.alt = o.title || "";
         img.classList.add("js-zoomable");
         thumb.appendChild(img);
       }
@@ -1213,9 +1212,9 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
       body.innerHTML = `
         ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
         
-        <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
+        <div class="art-title">${escapeHtml(o.title || "")}</div>
 
-        <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
+        <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -1308,14 +1307,14 @@ function renderConcerts(concerts) {
 
     const li = document.createElement("li");
     li.className = "event-item";
-    li.id = makeStableId("concert", getLocalizedField(c, 'titre') || "", d ? d.toISOString().slice(0,10) : "");
+    li.id = makeStableId("concert", c.titre || "", d ? d.toISOString().slice(0,10) : "");
 
     li.innerHTML = `
       <div class="event-date">${escapeHtml(d ? d.toLocaleDateString("fr-FR") : "")}</div>
       <div>
-        ${imgUrl ? `<div class="event-image"><img class="js-zoomable" src="${imgUrl}" alt="${escapeHtml(getLocalizedField(c, 'titre') || "")}"></div>` : ""}
-        <div class="event-title">${escapeHtml(getLocalizedField(c, 'titre') || "")}</div>
-        <div class="event-meta">${escapeHtml((getLocalizedField(c, 'lieu') || "") + " · " + (getLocalizedField(c, 'description') || ""))}</div>
+        ${imgUrl ? `<div class="event-image"><img class="js-zoomable" src="${imgUrl}" alt="${escapeHtml(c.titre || "")}"></div>` : ""}
+        <div class="event-title">${escapeHtml(c.titre || "")}</div>
+        <div class="event-meta">${escapeHtml((c.lieu || "") + " · " + (c.description || ""))}</div>
       </div>
     `;
 
@@ -1347,12 +1346,12 @@ function renderPresse(entries) {
     card.innerHTML = `
       ${p.image ? `
         <div class="card-thumb">
-          <img class="js-zoomable" src="${driveToImageUrl(p.image)}" alt="${escapeHtml(getLocalizedField(p, 'titre') || "")}">
+          <img class="js-zoomable" src="${driveToImageUrl(p.image)}" alt="${escapeHtml(p.titre || "")}">
         </div>` : ""
       }
       <div class="card-kicker">${escapeHtml(p.source || "Presse")}</div>
-      <h3 class="card-title">${escapeHtml(getLocalizedField(p, 'titre') || "")}</h3>
-      <p class="card-text">${escapeHtml(dateText)}${escapeHtml(getLocalizedField(p, 'texte') || "")}</p>
+      <h3 class="card-title">${escapeHtml(p.titre || "")}</h3>
+      <p class="card-text">${escapeHtml(dateText)}${escapeHtml(p.texte || "")}</p>
       ${p.lien ? `<a class="card-link" href="${p.lien}" target="_blank" rel="noopener">Ouvrir l’article</a>` : ""}
     `;
 
