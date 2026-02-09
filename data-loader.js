@@ -727,13 +727,15 @@ function renderOeuvresPhares(list) {
       const fullDesc = getArtDescription(o);
       const { short, isLong } = truncateText(fullDesc, 170);
       const oeuvreJson = escapeHtml(JSON.stringify(o));
+      const title = getLocalizedField(o, 'title') || "";
+      const technique = getLocalizedField(o, 'technique') || "";
       
       body.innerHTML = `
         ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
         
-        <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
+        <div class="art-title">${escapeHtml(title)}</div>
 
-        <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
+        <div class="art-meta-line">${escapeHtml(technique)}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -780,13 +782,15 @@ function renderOeuvresPhares(list) {
     const fullDesc = getArtDescription(o);
     const { short, isLong } = truncateText(fullDesc, 170);
     const oeuvreJson = escapeHtml(JSON.stringify(o));
+    const title = getLocalizedField(o, 'title') || "";
+    const technique = getLocalizedField(o, 'technique') || "";
     
     body.innerHTML = `
       ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
       
-      <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
+      <div class="art-title">${escapeHtml(title)}</div>
 
-      <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
+      <div class="art-meta-line">${escapeHtml(technique)}</div>
       <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
       <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -1218,9 +1222,9 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
       body.innerHTML = `
         ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
         
-        <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
+        <div class="art-title">${escapeHtml(title)}</div>
 
-        <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
+        <div class="art-meta-line">${escapeHtml(technique)}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
