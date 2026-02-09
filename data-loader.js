@@ -731,9 +731,9 @@ function renderOeuvresPhares(list) {
       body.innerHTML = `
         ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
         
-        <div class="art-title">${escapeHtml(o.title || "")}</div>
+        <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
 
-        <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
+        <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -784,9 +784,9 @@ function renderOeuvresPhares(list) {
     body.innerHTML = `
       ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
       
-      <div class="art-title">${escapeHtml(o.title || "")}</div>
+      <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
 
-      <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
+      <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
       <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
       <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
@@ -884,16 +884,17 @@ function renderActualitesAccueil(nextExpo, nextConcert, nouvelleOeuvre) {
 
     if (nextExpo) {
       const d = nextExpo.d || parseSheetDate(nextExpo.date_debut);
-      if (titleEl) titleEl.textContent = nextExpo.titre || "Exposition";
-      if (textEl) textEl.textContent = `${nextExpo.lieu || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
+      if (titleEl) titleEl.textContent = getLocalizedField(nextExpo, 'titre') || "Exposition";
+      if (textEl) textEl.textContent = `${getLocalizedField(nextExpo, 'lieu') || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
 
       if (thumbImg && nextExpo.image) {
         if (thumbWrap) thumbWrap.style.display = "";
-        setImgWithFallback(thumbImg, driveToImageUrl(nextExpo.image), nextExpo.titre || "Exposition");
+        setImgWithFallback(thumbImg, driveToImageUrl(nextExpo.image), getLocalizedField(nextExpo, 'titre') || "Exposition");
         thumbImg.classList.add("js-zoomable");
       }
     } else {
-      if (titleEl) titleEl.textContent = "Aucune exposition prévue";
+      const noExpoText = typeof t === 'function' ? t('actus_aucune_expo') : "Aucune exposition prévue";
+      if (titleEl) titleEl.textContent = noExpoText;
       if (textEl) textEl.textContent = "";
       if (thumbWrap) thumbWrap.style.display = "none";
     }
@@ -911,16 +912,17 @@ function renderActualitesAccueil(nextExpo, nextConcert, nouvelleOeuvre) {
 
     if (nextConcert) {
       const d = nextConcert.d || parseSheetDate(nextConcert.date);
-      if (titleEl) titleEl.textContent = nextConcert.titre || "Concert";
-      if (textEl) textEl.textContent = `${nextConcert.lieu || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
+      if (titleEl) titleEl.textContent = getLocalizedField(nextConcert, 'titre') || "Concert";
+      if (textEl) textEl.textContent = `${getLocalizedField(nextConcert, 'lieu') || ""}${d ? " · " + d.toLocaleDateString("fr-FR") : ""}`;
 
       if (thumbImg && nextConcert.image) {
         if (thumbWrap) thumbWrap.style.display = "";
-        setImgWithFallback(thumbImg, driveToImageUrl(nextConcert.image), nextConcert.titre || "Concert");
+        setImgWithFallback(thumbImg, driveToImageUrl(nextConcert.image), getLocalizedField(nextConcert, 'titre') || "Concert");
         thumbImg.classList.add("js-zoomable");
       }
     } else {
-      if (titleEl) titleEl.textContent = "Aucun concert prévu";
+      const noConcertText = typeof t === 'function' ? t('actus_aucun_concert') : "Aucun concert prévu";
+      if (titleEl) titleEl.textContent = noConcertText;
       if (textEl) textEl.textContent = "";
       if (thumbWrap) thumbWrap.style.display = "none";
     }
@@ -1212,9 +1214,9 @@ function renderOeuvresGrid(oeuvres, containerId, filterStatut) {
       body.innerHTML = `
         ${st.text ? `<div class="art-status-wrapper"><span class="${st.cls}">${escapeHtml(st.text)}</span></div>` : ""}
         
-        <div class="art-title">${escapeHtml(o.title || "")}</div>
+        <div class="art-title">${escapeHtml(getLocalizedField(o, 'title') || "")}</div>
 
-        <div class="art-meta-line">${escapeHtml(o.technique || "")}</div>
+        <div class="art-meta-line">${escapeHtml(getLocalizedField(o, 'technique') || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.dimensions || "")}</div>
         <div class="art-meta-line">${escapeHtml(o.annee || "")}</div>
 
