@@ -1069,12 +1069,13 @@ function renderActualitesPage({ expos = [], concerts = [], oeuvres = [] } = {}) 
   const itemsExpo = expos
     .map((e) => {
       const d = parseSheetDate(e.date_debut);
-      const id = makeStableId("expo", e.titre || "", d ? d.toISOString().slice(0, 10) : "");
+      const id = makeStableId("expo", getLocalizedField(e, 'titre') || "", d ? d.toISOString().slice(0, 10) : "");
+      const kindText = typeof t === 'function' ? t('actus_exposition') : "Exposition";
       return {
         type: "expo",
-        kind: "Exposition",
-        titre: e.titre || "",
-        lieu: e.lieu || "",
+        kind: kindText,
+        titre: getLocalizedField(e, 'titre') || "",
+        lieu: getLocalizedField(e, 'lieu') || "",
         date: d,
         dateText: d ? formatDateFR(d) : "",
         img: driveToImageUrl(e.image),
@@ -1087,12 +1088,13 @@ function renderActualitesPage({ expos = [], concerts = [], oeuvres = [] } = {}) 
   const itemsConcert = concerts
     .map((c) => {
       const d = parseSheetDate(c.date);
-      const id = makeStableId("concert", c.titre || "", d ? d.toISOString().slice(0, 10) : "");
+      const id = makeStableId("concert", getLocalizedField(c, 'titre') || "", d ? d.toISOString().slice(0, 10) : "");
+      const kindText = typeof t === 'function' ? t('actus_concert') : "Concert";
       return {
         type: "concert",
-        kind: "Concert",
-        titre: c.titre || "",
-        lieu: c.lieu || "",
+        kind: kindText,
+        titre: getLocalizedField(c, 'titre') || "",
+        lieu: getLocalizedField(c, 'lieu') || "",
         date: d,
         dateText: d ? formatDateFR(d) : "",
         img: driveToImageUrl(c.image),
@@ -1106,12 +1108,13 @@ function renderActualitesPage({ expos = [], concerts = [], oeuvres = [] } = {}) 
     .filter((o) => o.title)
     .filter((o) => isTruthyOuiActu(o.actualites))
     .map((o) => {
-      const id = makeStableId("oeuvre", o.title || "", o.annee || "");
+      const id = makeStableId("oeuvre", getLocalizedField(o, 'title') || "", o.annee || "");
+      const kindText = typeof t === 'function' ? t('actus_nouvelle') : "Nouvelle œuvre";
       return {
         type: "oeuvre",
-        kind: "Nouvelle œuvre",
-        titre: o.title || "",
-        lieu: o.technique || "",
+        kind: kindText,
+        titre: getLocalizedField(o, 'title') || "",
+        lieu: getLocalizedField(o, 'technique') || "",
         date: null,
         dateText: o.annee ? escapeHtml(o.annee) : "",
         img: driveToImageUrl(o.image),
@@ -1157,13 +1160,14 @@ function renderActualitesPage({ expos = [], concerts = [], oeuvres = [] } = {}) 
       : "";
 
     const metaLine = [it.dateText, it.lieu].filter(Boolean).join(" · ");
+    const lirePlusText = typeof t === 'function' ? t('lire_plus') : "En savoir plus…";
 
     card.innerHTML = `
       <div class="card-kicker">${escapeHtml(it.kind)}</div>
       ${imgHtml}
       <h3 class="card-title">${escapeHtml(it.titre)}</h3>
       ${metaLine ? `<p class="card-text">${escapeHtml(metaLine)}</p>` : ""}
-      <a class="card-link" href="${it.href}">En savoir plus…</a>
+      <a class="card-link" href="${it.href}">${lirePlusText}</a>
     `;
 
     container.appendChild(card);
